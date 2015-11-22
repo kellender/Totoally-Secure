@@ -1,9 +1,5 @@
 from subprocess import check_output
 
-# hash of the HEAD commit
-head = check_output(["git", "rev-parse", "HEAD"]).strip()
-traverse( head )
-
 # hashes of commits that were already touched
 hashes = []
 hashes.add( head )
@@ -33,3 +29,7 @@ def traverse( commit_hash ):
                 hashes.add(parent_hash)
                 traverse(parent_hash)
 
+
+# hash of the HEAD commit
+head = check_output(["git", "rev-parse", "HEAD"]).strip()
+traverse( head )

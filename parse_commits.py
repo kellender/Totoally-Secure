@@ -22,10 +22,7 @@ def traverse( commit_hash ):
         if ( len( line ) != 0 ) and ( line.find( "parent" ) == 0 ):
             parents.add( line )
 
-    if len(parents) == 0:
-        # no parents means that the first commit of the branch was reached
-        break
-    else:
+    if len(parents) > 0:
         for parent in parents:
             # parent is in form "parent <hash>"
             parent_hash = parent.split()[1]
@@ -35,3 +32,4 @@ def traverse( commit_hash ):
 
                 hashes.add(parent_hash)
                 traverse(parent_hash)
+

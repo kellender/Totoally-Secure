@@ -1,7 +1,7 @@
 import repository_lib, repository_tool
 
 # It starts here:
-#       One file
+#       One file - located within /tuf-develop/tuf/
 #       Do not check on individual workflows... makes no sense
 #       Checks to detect a behavior or pattern
 #       Functions should include:

@@ -2,13 +2,12 @@ from subprocess import check_output
 
 # hashes of commits that were already touched
 hashes = []
-hashes.add( head )
 
 # Recurse thought the tree until the initial commit is reached.
 def traverse( commit_hash ):
     # text of the current git commit object
     current_commit = check_output(
-        ["git", "cat-file", "-p", commit_hash]).split("\n")
+        ["git", "cat-file", "-p", commit_hash] ).split("\n")
     
     # parents of the current commit
     parents = []
@@ -16,20 +15,21 @@ def traverse( commit_hash ):
     # find all parents of the current commit
     for line in current_commit:
         if ( len( line ) != 0 ) and ( line.find( "parent" ) == 0 ):
-            parents.add( line )
+            parents.append( line )
 
-    if len(parents) > 0:
+    if len( parents ) > 0:
         for parent in parents:
             # parent is in form "parent <hash>"
-            parent_hash = parent.split()[1]
+            parent_hash = parent.split( )[1]
 
+            global hashes
             if parent_hash not in hashes:
-                global hashes
-
-                hashes.add(parent_hash)
-                traverse(parent_hash)
+                hashes.append( parent_hash )
+                traverse( parent_hash )
 
 
 # hash of the HEAD commit
-head = check_output(["git", "rev-parse", "HEAD"]).strip()
+head = check_output( ["git", "rev-parse", "HEAD"] ).strip( )
+hashes.append( head )
 traverse( head )
+

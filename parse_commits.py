@@ -19,7 +19,7 @@ def traverse( commit_hash ):
 
     # find all parents of the current commit
     for line in current_commit:
-        if len( line ) != 0 and line.find( "parent" ) == 0):
+        if ( len( line ) != 0 ) and ( line.find( "parent" ) == 0 ):
             parents.add( line )
 
     if len(parents) == 0:

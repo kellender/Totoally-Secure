@@ -27,7 +27,7 @@ def recurse_dir():
     """
     <Purpose>
         This script calls Toto's pattern matching algorithm in the file named
-        "pattern_matching_algorithm.py"
+        "parse_commits.py"
     
     <Arguments>
         None.
@@ -43,7 +43,7 @@ def recurse_dir():
     for root, sub_dirs, files in os.walk(sys.argv[1]):
         for file in files:
             #print os.path.join(root, file)
-            if file == "pattern_matching_algorithm.py":
+            if file == "parse_commits.py":
                 os.system(file)
 
 recurse_dir()

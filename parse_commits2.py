@@ -20,7 +20,7 @@ def add_child( parent_hash, child_hash ) :
             metadata[parent_hash][child] = child_hash
             break
 
-def get_timestamps( commit_hash, merge ) :
+def add_timestamps( commit_hash, merge ) :
     global metadata
 
     metadata[commit_hash]["author_timestamp"] = check_output(
@@ -57,7 +57,7 @@ def traverse( commit_hash ) :
                 metadata[current_hash]["merger"] = line.split( " ", 1 )
                 merge = true
 
-    get_timestamps( commit_hash, merge )
+    add_timestamps( commit_hash, merge )
 
     if merge :
         metadata[commit_hash]["type"] = "merge"

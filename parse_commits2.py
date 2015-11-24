@@ -12,10 +12,10 @@ def add_child( parent_hash, child_hash ) :
 
     child_num = 2
 
-    while true :
+    while True :
         child = "child"+`child_num`
 
-        if metadata[parent_hash][child] :
+        if child in metadata[parent_hash] :
             child_num += 1
         else :
             metadata[parent_hash][child] = child_hash
@@ -32,13 +32,24 @@ def add_timestamps( commit_hash ) :
         ["git", "show", "-s", "--format=%ci", commit_hash]
         ).strip( )
 
+# for now types include: HEAD, TAIL, commit, pre-branch/fork. amd merge
+def add_type( commit_hash, commit_type ) :
+    global metadata
+
+    if len( metadata[commit_hash]["type"] ) == 0 :
+        metadata[commit_hash]["type"] = commit_type
+    else :
+        # could be "pre-branch/fork" and "merge" simultaneously
+        metadata[commit_hash]["type"] += "; "+commit_type
+
 # Recurse thought the tree until the initial commit is reached.
 def traverse( commit_hash, child_hash = None ) :
     global metadata
 
     metadata[commit_hash] = {}
+    metadata[commit_hash]["type"] = ""
 
-    if child_hash:
+    if child_hash :
         metadata[commit_hash]["child1"] = child_hash
 
     # text of the current git commit object
@@ -86,5 +97,27 @@ head = check_output( ["git", "rev-parse", "HEAD"] ).strip( )
 hashes.append( head )
 traverse( head )
 
-with open( "metadata.json", "w" ) as ofs:
+for commit in metadata :
+    if "parent2" in metadata[commit] :
+        # if there are two or more parents, it's a merge commit
+        add_type( commit, "merge" )
+    elif "parent1" not in metadata[commit] :
+        # if there are no parents, it's the tail commit
+        add_type( commit, "TAIL" )
+
+    if "child2" in metadata[commit] :
+        # if there are two or more children, it's a pre-branch/fork commit
+        add_type( commit, "pre-branch/fork" )
+    elif "child1" not in metadata[commit] :
+        # if there are no children, it's a HEAD commit
+        # (with respect to the current branch)
+        add_type( commit, "HEAD" )
+
+    if "parent2" not in metadata[commit] and \
+        "child2" not in metadata[commit] :
+        # if there are neither multiple parents nor multiple children,
+        # it's a normal commit
+        add_type( commit, "commit" )
+
+with open( "metadata.json", "w" ) as ofs :
     ofs.write( json.dumps( metadata, indent = 4 ) )

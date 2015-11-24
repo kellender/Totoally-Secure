@@ -1,4 +1,5 @@
 from subprocess import check_output
+import json
 
 # hashes of commits that were already touched
 hashes = []
@@ -56,11 +57,13 @@ def traverse( commit_hash, child_hash = None ) :
             if line.startswith( "parent" ) :
                 parents.append( line )
             elif line.startswith( "author" ) :
-                author = line.split( " ", 1 )[:line.find( ">" )+1]
-                metadata[commit_hash]["author"] = author
+                author = line.split( " ", 1 )[1]
+                metadata[commit_hash]["author"] = \
+                    author[:author.find( ">" )+1]
             elif line.startswith( "committer" ) :
-                committer = line.split( " ", 1 )[:line.find( ">" )+1]
-                metadata[commit_hash]["committer"] = committer
+                committer = line.split( " ", 1 )[1]
+                metadata[commit_hash]["committer"] = \
+                    committer[:committer.find( ">" )+1]
 
     add_timestamps( commit_hash )
 
@@ -83,3 +86,5 @@ head = check_output( ["git", "rev-parse", "HEAD"] ).strip( )
 hashes.append( head )
 traverse( head )
 
+with open( "metadata.json", "w" ) as ofs:
+    ofs.write( json.dumps( metadata, indent = 4 ) )

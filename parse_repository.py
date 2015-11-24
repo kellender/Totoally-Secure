@@ -1,3 +1,22 @@
+"""
+<Program Name>
+    parse_repository.py
+
+<Authors>
+    Team Totolly Secure
+
+<Started>
+    November 2015.
+
+
+
+<Purpose>
+    The following shell command recurses through metadata, detect
+    workflow paterns, and log its findings especially those findings
+    that are strange when compared to the rest of the pattern.
+    Workflows may be of any style.
+"""
+
 from subprocess import check_output
 import json
 
@@ -8,6 +27,21 @@ hashes = []
 metadata = {}
 
 def add_child( parent_hash, child_hash ) :
+    """
+    <Purpose>
+        This function assigns child nodes to metadata for the current node.
+        Value added will be the child hash.
+    
+    <Arguments>
+        Parent and childs' hashes.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Nothing.
+    """
+    
     global metadata
 
     child_num = 2
@@ -22,6 +56,20 @@ def add_child( parent_hash, child_hash ) :
             break
 
 def add_timestamps( commit_hash ) :
+    """
+    <Purpose>
+        This function adds timestamps to metadata associated with action.
+    
+    <Arguments>
+        Committer's hash and a bool value indicating whether action
+        is a merge or not.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Nothing.
+    """
     global metadata
 
     metadata[commit_hash]["author_timestamp"] = check_output(
@@ -34,6 +82,20 @@ def add_timestamps( commit_hash ) :
 
 # for now types include: HEAD, TAIL, commit, pre-branch/fork. amd merge
 def add_type( commit_hash, commit_type ) :
+    """
+    <Purpose>
+        Adds the "Type" of action attribute to the metadata.
+    
+    <Arguments>
+        The commit's hash and commit's type from another call is required.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Nothing.
+    """
+    
     global metadata
 
     if len( metadata[commit_hash]["type"] ) == 0 :
@@ -44,6 +106,21 @@ def add_type( commit_hash, commit_type ) :
 
 # Recurse thought the tree until the initial commit is reached.
 def traverse( commit_hash, child_hash = None ) :
+    """
+    <Purpose>
+        This function takes in the HEAD node and recurses backwards
+        while visiting each node.
+    
+    <Arguments>
+        HEAD node.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Nothing.
+    """
+    
     global metadata
 
     metadata[commit_hash] = {}

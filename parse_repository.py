@@ -18,7 +18,7 @@
 """
 
 from subprocess import check_output
-import json
+import json, metadata_lib
 
 # hashes of commits that were already touched
 hashes = []

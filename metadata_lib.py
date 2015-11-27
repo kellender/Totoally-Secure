@@ -69,7 +69,7 @@ def author_committer_same(metadata):
 
 def author_committer_differ(metadata):
     """
-        Runs list of keys for sub_metadata that have same author and committer.
+        Runs list of keys for sub_metadata that have different author and committer.
     """
     lst = []
     for key in metadata:

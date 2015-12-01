@@ -114,3 +114,19 @@ def get_infamous_mergers(metadata):
     return infamous_hashes
     
 # ______________________________________________________________________________
+# WORKFLOW FUNCTIONS
+
+def dictator_lieutenent_workflow(metadata):
+	"""
+		Returns true if repository follows a dictator-lieutenent
+		workflow.
+		<Perhaps incomplete - this so far only works on Master clones>
+	"""
+	print "Checking if Dictator-Lieutenent Workflow..."
+	is_workflow = True
+	infamous_mergers = get_infamous_mergers(metadata)
+	if len(infamous_mergers) != 0:
+		is_workflow = False
+		print "Not a dictator-lieutenent workflow"
+	
+	return is_workflow

@@ -98,7 +98,7 @@ def detect_mergers(metadata):
 
 def get_infamous_mergers(metadata):
     """
-        Returns hashes to mergers than merger less than 10% of the time.
+        Returns hashes to mergers that merges less than 10% of the time.
     """
     lst = []
     counters, mergers = detect_mergers(metadata)
@@ -125,7 +125,7 @@ def dictator_lieutenent_workflow(metadata):
 	print "Checking if Dictator-Lieutenent Workflow..."
 	is_workflow = True
 	infamous_mergers = get_infamous_mergers(metadata)
-	if len(infamous_mergers) != 0:
+	if len(infamous_mergers) != 1:
 		is_workflow = False
 		print "Not a dictator-lieutenent workflow"
 	

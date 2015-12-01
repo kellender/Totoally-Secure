@@ -124,3 +124,6 @@ def parse(path):
 
     with open( "metadata.json", "w" ) as ofs :
         ofs.write( json.dumps( metadata, indent = 4 ) )
+
+
+parse("./DEPENDENCIES/docker")

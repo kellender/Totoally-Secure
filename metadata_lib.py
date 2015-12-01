@@ -13,6 +13,7 @@
     To provide a list of functions that may assist with parsing metadata data
     structure with a given policy.
 """
+from collections import Counter
 
 
 def check(sub_key, value, metadata):
@@ -37,6 +38,7 @@ def check_with_type(sub_key, value, metadata, type_):
             lst.append(key)
     return lst
 
+# ______________________________________________________________________________
 def list_merges(metadata):
     """
         Runs list of keys for sub_metadata that have merges.
@@ -57,6 +59,7 @@ def list_branches(metadata):
             lst.append(key)
     return lst
 
+# ______________________________________________________________________________
 def author_committer_same(metadata):
     """
         Runs list of keys for sub_metadata that have same author and committer.
@@ -77,3 +80,37 @@ def author_committer_differ(metadata):
             lst.append(key)
     return lst
     
+# ______________________________________________________________________________
+def detect_mergers(metadata):
+    """
+        Returns the mergers and their respective merges count.
+    """
+    
+    lst = []
+    for key in metadata:
+        lst.append(metadata[key]["committer"])
+
+    # Finding the mode merger and its count along with any other mergers
+    data = Counter(lst)
+    counters = data.most_common()   # List of Tuples
+    
+    return counters, len(lst)
+
+def get_infamous_mergers(metadata):
+    """
+        Returns hashes to mergers than merger less than 10% of the time.
+    """
+    lst = []
+    counters, mergers = detect_mergers(metadata)
+    for merger in counters:         # List of Tuples traversal
+        if merger[1] / mergers < 0.1:
+            print "Possible Infamous Merger: " + str(merger[0])
+            lst.append(merger[0])
+
+    infamous_hashes = []
+    for key in metadata:
+        if metadata[key]["committer"] in lst:
+            infamous_hashes.append(metadata[key])
+    return infamous_hashes
+    
+# ______________________________________________________________________________

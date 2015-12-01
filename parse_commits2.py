@@ -1,6 +1,7 @@
 from subprocess import check_output
 import json
 
+
 # hashes of commits that were already touched
 hashes = []
 
@@ -92,32 +93,34 @@ def traverse( commit_hash, child_hash = None ) :
                 add_child( parent_hash, commit_hash )
 
 
-# hash of the HEAD commit
-head = check_output( ["git", "rev-parse", "HEAD"] ).strip( )
-hashes.append( head )
-traverse( head )
 
-for commit in metadata :
-    if "parent2" in metadata[commit] :
-        # if there are two or more parents, it's a merge commit
-        add_type( commit, "merge" )
-    elif "parent1" not in metadata[commit] :
-        # if there are no parents, it's the tail commit
-        add_type( commit, "TAIL" )
+def parse(path):
+    # hash of the HEAD commit
+    head = check_output( ["git", "--git-dir='" + path + "/.git/", "rev-parse", "HEAD"] ).strip( )
+    hashes.append( head )
+    traverse( head )
 
-    if "child2" in metadata[commit] :
-        # if there are two or more children, it's a pre-branch/fork commit
-        add_type( commit, "pre-branch/fork" )
-    elif "child1" not in metadata[commit] :
-        # if there are no children, it's a HEAD commit
-        # (with respect to the current branch)
-        add_type( commit, "HEAD" )
+    for commit in metadata :
+        if "parent2" in metadata[commit] :
+            # if there are two or more parents, it's a merge commit
+            add_type( commit, "merge" )
+        elif "parent1" not in metadata[commit] :
+            # if there are no parents, it's the tail commit
+            add_type( commit, "TAIL" )
 
-    if "parent2" not in metadata[commit] and \
-        "child2" not in metadata[commit] :
-        # if there are neither multiple parents nor multiple children,
-        # it's a normal commit
-        add_type( commit, "commit" )
+        if "child2" in metadata[commit] :
+            # if there are two or more children, it's a pre-branch/fork commit
+            add_type( commit, "pre-branch/fork" )
+        elif "child1" not in metadata[commit] :
+            # if there are no children, it's a HEAD commit
+            # (with respect to the current branch)
+            add_type( commit, "HEAD" )
 
-with open( "metadata.json", "w" ) as ofs :
-    ofs.write( json.dumps( metadata, indent = 4 ) )
+        if "parent2" not in metadata[commit] and \
+            "child2" not in metadata[commit] :
+            # if there are neither multiple parents nor multiple children,
+            # it's a normal commit
+            add_type( commit, "commit" )
+
+    with open( "metadata.json", "w" ) as ofs :
+        ofs.write( json.dumps( metadata, indent = 4 ) )

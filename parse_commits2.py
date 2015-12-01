@@ -96,7 +96,7 @@ def traverse( commit_hash, child_hash = None ) :
 
 def parse(path):
     # hash of the HEAD commit
-    head = check_output( ["git", "--git-dir='" + path + "/.git/", "rev-parse", "HEAD"] ).strip( )
+    head = check_output( ["git", "--git-dir='" + path + "/.git/'", "rev-parse", "HEAD"] ).strip( )
     hashes.append( head )
     traverse( head )
 

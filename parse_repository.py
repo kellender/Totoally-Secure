@@ -98,12 +98,71 @@ def add_type( commit_hash, commit_type ) :
     
     global metadata
 
-    if len( metadata[commit_hash]["type"] ) == 0 :
-        metadata[commit_hash]["type"] = commit_type
+    if "commit_type" not in metadata[commit_hash] :
+        metadata[commit_hash]["commit_type"] = commit_type
     else :
         # could be "pre-branch/fork" and "merge" simultaneously
-        metadata[commit_hash]["type"] += "; "+commit_type
+        metadata[commit_hash]["commit_type"] += "; "+commit_type
 
+def check_code_review( commit_hash ) :
+    global metadata
+
+    merges = []
+    commit = commit_hash
+
+    while True :
+        if metadata[commit]["commit_type"] == "merge" :
+            merges.append( commit )
+        else :
+            metadata[commit]["code_reviewed"] = \
+                `metadata[commit]["author"] != \
+                metadata[commit]["committer"]`
+
+        metadata[commit]["branch"] = "master"
+
+        if "parent1" in metadata[commit] :
+            commit = metadata[commit]["parent1"]
+        else :
+            break
+
+    branch_num = 1
+
+    while len( merges ) > 0 :
+        merge_commit = merges.pop( )
+
+        merge_reviewed = True
+
+        parents = []
+
+        parent_count = 2
+        while "parent"+`parent_count` in metadata[merge_commit] :
+            parents.append( \
+                metadata[merge_commit]["parent"+`parent_count`] )
+            parent_count += 1
+
+        for parent in parents:
+            current = parent
+
+            while "code_reviewed" not in metadata[current] :
+                if "merge" in metadata[current]["commit_type"] :
+                    merges.append( current )
+                else :
+                    metadata[current]["code_reviewed"] = \
+                        `metadata[current]["author"] != \
+                        metadata[current]["committer"]`
+                    
+                    if merge_reviewed :
+                        merge_reviewed = metadata[current]["committer"] != \
+                            metadata[merge_commit]["committer"]
+
+                metadata[current]["branch"] = "branch"+`branch_num`
+
+                current = metadata[current]["parent1"]
+
+        metadata[merge_commit]["code_reviewed"] = `merge_reviewed`
+
+        branch_num += 1
+            
 # Recurse thought the tree until the initial commit is reached.
 def traverse( commit_hash, child_hash = None ) :
     """
@@ -124,7 +183,6 @@ def traverse( commit_hash, child_hash = None ) :
     global metadata
 
     metadata[commit_hash] = {}
-    metadata[commit_hash]["type"] = ""
 
     if child_hash :
         metadata[commit_hash]["child1"] = child_hash
@@ -175,12 +233,8 @@ hashes.append( head )
 traverse( head )
 
 for commit in metadata :
-    if "parent2" in metadata[commit] :
-        # if there are two or more parents, it's a merge commit
-        add_type( commit, "merge" )
-    elif "parent1" not in metadata[commit] :
-        # if there are no parents, it's the tail commit
-        add_type( commit, "TAIL" )
+    # is it the head or tail commit
+    hORt = False
 
     if "child2" in metadata[commit] :
         # if there are two or more children, it's a pre-branch/fork commit
@@ -189,12 +243,24 @@ for commit in metadata :
         # if there are no children, it's a HEAD commit
         # (with respect to the current branch)
         add_type( commit, "HEAD" )
+        hORt = True
+
+    if "parent2" in metadata[commit] :
+        # if there are two or more parents, it's a merge commit
+        add_type( commit, "merge" )
+    elif "parent1" not in metadata[commit] and not hORt :
+        # if there are no parents, it's the tail commit
+        # also no need to mark as the TAIL if it's the HEAD
+        add_type( commit, "TAIL" )
+        hORt = True
 
     if "parent2" not in metadata[commit] and \
-        "child2" not in metadata[commit] :
-        # if there are neither multiple parents nor multiple children,
-        # it's a normal commit
+        "child2" not in metadata[commit] and not hORt :
+        # if there are neither multiple parents nor multiple children
+        # check for code review
         add_type( commit, "commit" )
+
+check_code_review( head )
 
 with open( "metadata.json", "w" ) as ofs :
     ofs.write( json.dumps( metadata, indent = 4 ) )

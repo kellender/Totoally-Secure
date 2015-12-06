@@ -18,8 +18,20 @@ from collections import Counter
 
 def check(sub_key, value, metadata):
     """
+	<Purpose>
         Runs list of keys for sub_metadata that have a value that does not
         match the value passed in.
+    
+    <Arguments>
+		sub_key that can be "code_reviewed", "committer", "branch", etc...
+		Expected value for the above sub_key
+		Metadata object.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns a list of hashes.
     """
     lst = []
     for key in metadata:
@@ -29,8 +41,21 @@ def check(sub_key, value, metadata):
 
 def check_with_type(sub_key, value, metadata, type_):
     """
+	<Purpose>
         Runs list of keys for sub_metadata that have a value that does not
         match the value passed in for a specific type of commit.
+    
+    <Arguments>
+		sub_key that can be "code_reviewed", "committer", "branch", etc...
+		Expected value for the above sub_key
+		Metadata object.
+		type of commit to check for in the Metadata object.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns a list of hashes.
     """
     lst = []
     for key in metadata:
@@ -41,7 +66,17 @@ def check_with_type(sub_key, value, metadata, type_):
 # ______________________________________________________________________________
 def list_merges(metadata):
     """
-        Runs list of keys for sub_metadata that have merges.
+    <Purpose>
+        Finds all merging commits.
+    
+    <Arguments>
+		Metadata object.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns a list of hashes.
     """
     lst = []
     for key in metadata:
@@ -51,7 +86,17 @@ def list_merges(metadata):
 
 def list_branches(metadata):
     """
-        Runs list of keys for sub_metadata that have branches.
+    <Purpose>
+        Finds all branching/forking commits.
+    
+    <Arguments>
+		Metadata object.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns a list of hashes.
     """
     lst = []
     for key in metadata:
@@ -62,7 +107,17 @@ def list_branches(metadata):
 # ______________________________________________________________________________
 def author_committer_same(metadata):
     """
-        Runs list of keys for sub_metadata that have same author and committer.
+    <Purpose>
+        Checks commits where author and committer are the same.
+    
+    <Arguments>
+		Metadata object.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns a list of hashes.
     """
     lst = []
     for key in metadata:
@@ -72,7 +127,17 @@ def author_committer_same(metadata):
 
 def author_committer_differ(metadata):
     """
-        Runs list of keys for sub_metadata that have different author and committer.
+    <Purpose>
+        Checks commits where author and committer differ.
+    
+    <Arguments>
+		Metadata object.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns a list of hashes.
     """
     lst = []
     for key in metadata:
@@ -81,9 +146,37 @@ def author_committer_differ(metadata):
     return lst
     
 # ______________________________________________________________________________
+def detech_unreviewed_merges(metadata):
+	"""
+    <Purpose>
+        Checks all merges that have not been code reviewed.
+    
+    <Arguments>
+		Metadata object.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns a list of hashes.
+    """
+	return check_with_type("code_reviewed", "True", metadata, "merge")
+
 def detect_mergers(metadata):
     """
-        Returns the mergers and their respective merges count.
+    <Purpose>
+        Returns mergers and associated number of merges in
+		the form of a list of tuples. Also returns
+		number of unique mergers.
+    
+    <Arguments>
+		Metadata object
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns list of tuples and length of list
     """
     
     lst = []
@@ -98,7 +191,18 @@ def detect_mergers(metadata):
 
 def get_infamous_mergers(metadata):
     """
+	<Purpose>
         Returns hashes to mergers that merges less than 10% of the time.
+		THIS FUNCTION HAS BEEN DEEMED USELESS
+    
+    <Arguments>
+		Metadata object
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns list of hashes
     """
     lst = []
     counters, mergers = detect_mergers(metadata)
@@ -116,11 +220,9 @@ def get_infamous_mergers(metadata):
 # ______________________________________________________________________________
 # WORKFLOW FUNCTIONS
 
-def dictator_lieutenent_workflow(metadata):
+def __dictator_lieutenent_workflow_scrap(dictator, lieut_list, metadata):
 	"""
-		Returns true if repository follows a dictator-lieutenent
-		workflow.
-		<Perhaps incomplete - this so far only works on Master clones>
+		DO NOT USE
 	"""
 	print "Checking if Dictator-Lieutenent Workflow..."
 	is_workflow = True
@@ -130,3 +232,106 @@ def dictator_lieutenent_workflow(metadata):
 		print "Not a dictator-lieutenent workflow"
 	
 	return is_workflow
+
+def dictator_lieutenent_driver(acl, dictator_names, lieut_names, metadata):
+	"""
+    <Purpose>
+        This function takes names of dictators and lieutenents and calls the
+		actual function that detects if repository follows a dictator-
+		lieutenent workflow.
+    
+    <Arguments>
+        Access Control List (dictionary of dictionaries)
+			{
+				user1:{
+					write:"True",
+					commit:"True",
+					merge:(<str>,<str>)
+				},
+				user2:{
+					write:"True"
+				},
+				...
+			}
+		Dictator names (list of strings)
+		Liuetenent names (list of strings)
+		Metadata object
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns a boolean value.
+    """
+	dictator_dict = {}
+	lieut_dict = {}
+	for key in acl:
+		if key in dictator_names:
+			temp = {}
+			temp[key] = acl[key]
+			dictator_dict[key] = temp
+		elif key in dictator_names:
+			temp = {}
+			temp[key] = acl[key]
+			dictator_dict[key] = temp
+	return __dictator_lieutenent_workflow(dictator_dict, lieut_dict, metadata)
+	
+
+def __dictator_lieutenent_workflow(dictator_dict, lieut_dict, metadata):
+	"""
+    <Purpose>
+        Checks if merges in the master is done only by the dictator and
+		any repositories that are one merge away from the master has
+		merges that have been done by lieutenent.
+    
+    <Arguments>
+		Dictator's dictionary from driver function
+		Liuetenent's dictionary from driver function
+		Metadata object
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns a boolean value.
+    """
+	print "Checking if Dictator-Lieutenent Workflow..."
+	is_workflow = True
+	merges = list_merges(metadata)		# Returns list of hashes for merges
+	
+	for hashes in merges:
+		if metadata[hashes]["committer"] in dictator_dict and metadata[hashes]["layer"] == "master":
+			if "merge" in dictator_dict[metadata[hashes]["committer"]]:
+				if isinstance(dictator_dict[metadata[hashes]["committer"]]["merge"], tuple):
+					if metadata[hashes]["commit_timestamp"] > dictator_dict[metadata[hashes]["committer"]]["merge"][0] and metadata[hashes]["commit_timestamp"] < dictator_dict[metadata[hashes]["committer"]]["merge"][1]:
+						print "Dictator is fine"
+					else:
+						is_workflow = False
+				elif isinstance(dictator_dict[metadata[hashes]["committer"]]["merge"], str):
+					if dictator_dict[metadata[hashes]["committer"]]["merge"] == "True":
+						print "Dictator is fine"
+					else:
+						is_workflow = False
+				else:
+					is_workflow = False
+	
+	for hashes in merges:
+		if metadata[hashes]["committer"] in lieut_dict and metadata[hashes]["layer"] == "layer1":
+			if "merge" in lieut_dict[metadata[hashes]["committer"]]:
+				if isinstance(lieut_dict[metadata[hashes]["committer"]]["merge"], tuple):
+					if metadata[hashes]["commit_timestamp"] > lieut_dict[metadata[hashes]["committer"]]["merge"][0] and metadata[hashes]["commit_timestamp"] < lieut_dict[metadata[hashes]["committer"]]["merge"][1]:
+						print "Lieutenent is fine"
+					else:
+						is_workflow = False
+				elif isinstance(lieut_dict[metadata[hashes]["committer"]]["merge"], str):
+					if lieut_dict[metadata[hashes]["committer"]]["merge"] == "True":
+						print "Lieutenent is fine"
+					else:
+						is_workflow = False
+				else:
+					is_workflow = False
+
+	if is_workflow == False:
+		print "Not Dictator-Lieutenent Workflow"
+	return is_workflow
+

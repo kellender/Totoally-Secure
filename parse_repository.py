@@ -320,6 +320,14 @@ for commit in metadata :
 # check for code review
 check_code_review( head )
 
+print "Merges that have not been reviewed:"
+not_reviewed_merges = metadata_lib.detect_unreviewed_merges(metadata)
+if len(not_reviewed_merges) == 0:
+	print "None"
+else:
+	for hashes in not_reviewed_merges:
+		print hashes
+
 # write metadata to a file in a json format
 with open( "metadata.json", "w" ) as ofs :
     ofs.write( json.dumps( metadata, indent = 4 ) )

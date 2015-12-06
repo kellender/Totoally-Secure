@@ -59,7 +59,7 @@ def check_with_type(sub_key, value, metadata, type_):
     """
     lst = []
     for key in metadata:
-        if metadata[key][sub_key] != value and metadata[key]["type"] == type_:
+        if metadata[key][sub_key] != value and metadata[key]["commit_type"] == type_:
             lst.append(key)
     return lst
 
@@ -146,7 +146,7 @@ def author_committer_differ(metadata):
     return lst
     
 # ______________________________________________________________________________
-def detech_unreviewed_merges(metadata):
+def detect_unreviewed_merges(metadata):
 	"""
     <Purpose>
         Checks all merges that have not been code reviewed.

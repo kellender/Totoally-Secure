@@ -87,6 +87,8 @@ def main():
 
     os.chdir("./" + value.split('/')[-1])
 
+    #parsecommits go here!!!
+    
 
     # if(key == feature_branch_workflow):
 

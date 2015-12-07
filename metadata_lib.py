@@ -16,14 +16,12 @@
 from collections import Counter
 
 def return_hashes(metadata):
-    """
-    <Purpose>
-        Returns all keys in metadata objects in a list.
+	"""
+	<Purpose>
+        Returns metadata keys in a list.
     
     <Arguments>
-	sub_key that can be "code_reviewed", "committer", "branch", etc...
-	Expected value for the above sub_key
-	Metadata object.
+		Metadata object
     
     <Exceptions>
         None. Program will fail silently if algorithm is not found.
@@ -31,10 +29,10 @@ def return_hashes(metadata):
     <Returns>
         Returns a list of hashes.
     """
-    hashes = []
-    for key in metadata:
-        hashes.append(key)
-    return hashes
+	hashes = []
+	for key in metadata:
+		hashes.append(key)
+	return hashes
 
 def check(sub_key, value, metadata):
     """

@@ -133,7 +133,7 @@ def check_code_review( commit_hash ) :
 
         # name the branch; assumed it's the master branch
         metadata[current]["branch"] = "master"
-
+        metadata[current]["layer"] = 0
         # if the current commit has at least one parent, continue the loop
         # on that parent
         # else it's the TAIL commit; exit the loop
@@ -145,13 +145,13 @@ def check_code_review( commit_hash ) :
     # used for naming branches; i.e. "branch1", "branch2", ..., "branchN",
     # where N is some positive integer
     branch_num = 1
-
+    layer = 1
     # while the merges stack is still populated (there are still merges
     # to check for code review)
     while len( merges ) > 0 :
         # pop the next merge to check
         merge_commit = merges.pop( )
-
+        layer = 1
         # default value for the merge code review check
         merge_reviewed = True
 
@@ -172,7 +172,7 @@ def check_code_review( commit_hash ) :
         # loop through the parents of the merge commit
         for parent in parents:
             current = parent
-
+            
             # keep looping until a checked commit is run into
             # a checked commit represents the end of the branch
             while "code_reviewed" not in metadata[current] :
@@ -181,6 +181,7 @@ def check_code_review( commit_hash ) :
                 # against the merge to check the merge for code review
                 if "merge" in metadata[current]["commit_type"] :
                     merges.append( current )
+                    layer += 1
                 else :
                     metadata[current]["code_reviewed"] = \
                         `metadata[current]["author"] != \
@@ -194,7 +195,7 @@ def check_code_review( commit_hash ) :
 
                 # give the current commit a branch name
                 metadata[current]["branch"] = "branch"+`branch_num`
-
+                metadata[current]["layer"] = layer
                 # move to the next commit; the parent of the current
                 current = metadata[current]["parent1"]
 
@@ -203,6 +204,7 @@ def check_code_review( commit_hash ) :
 
         # increment the branch number
         branch_num += 1
+        
             
 # Recurse thought the tree until the initial commit is reached.
 def traverse( commit_hash, child_hash = None ) :
@@ -260,6 +262,7 @@ def traverse( commit_hash, child_hash = None ) :
 
     # add the author and committer timestamps to the commit's metadata
     add_timestamps( commit_hash )
+    
 
     # if the commit has parents
     if len( parents ) > 0 :
@@ -271,15 +274,17 @@ def traverse( commit_hash, child_hash = None ) :
 
             # add the parent hash to the current commit
             metadata[commit_hash]["parent"+`i+1`] = parent_hash
-
+            
             # if the parent hash isn't in hashes, add it and traverse the
             # parent commit
             # else add the current commit to the parent as a child
             if parent_hash not in hashes :
                 hashes.append( parent_hash )
                 traverse( parent_hash, commit_hash )
+
             else :
                 add_child( parent_hash, commit_hash )
+
 
 
 # hash of the HEAD commit

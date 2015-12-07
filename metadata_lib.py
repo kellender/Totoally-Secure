@@ -15,6 +15,26 @@
 """
 from collections import Counter
 
+def return_hashes(metadata):
+    """
+    <Purpose>
+        Returns all keys in metadata objects in a list.
+    
+    <Arguments>
+	sub_key that can be "code_reviewed", "committer", "branch", etc...
+	Expected value for the above sub_key
+	Metadata object.
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns a list of hashes.
+    """
+    hashes = []
+    for key in metadata:
+        hashes.append(key)
+    return hashes
 
 def check(sub_key, value, metadata):
     """
@@ -300,7 +320,7 @@ def __dictator_lieutenent_workflow(dictator_dict, lieut_dict, metadata):
 	merges = list_merges(metadata)		# Returns list of hashes for merges
 	
 	for hashes in merges:
-		if metadata[hashes]["committer"] in dictator_dict and metadata[hashes]["layer"] == "master":
+		if metadata[hashes]["committer"] in dictator_dict and metadata[hashes]["layer"] == 0:
 			if "merge" in dictator_dict[metadata[hashes]["committer"]]:
 				if isinstance(dictator_dict[metadata[hashes]["committer"]]["merge"], tuple):
 					if metadata[hashes]["commit_timestamp"] > dictator_dict[metadata[hashes]["committer"]]["merge"][0] and metadata[hashes]["commit_timestamp"] < dictator_dict[metadata[hashes]["committer"]]["merge"][1]:
@@ -316,7 +336,7 @@ def __dictator_lieutenent_workflow(dictator_dict, lieut_dict, metadata):
 					is_workflow = False
 	
 	for hashes in merges:
-		if metadata[hashes]["committer"] in lieut_dict and metadata[hashes]["layer"] == "layer1":
+		if metadata[hashes]["committer"] in lieut_dict and metadata[hashes]["layer"] == 1:
 			if "merge" in lieut_dict[metadata[hashes]["committer"]]:
 				if isinstance(lieut_dict[metadata[hashes]["committer"]]["merge"], tuple):
 					if metadata[hashes]["commit_timestamp"] > lieut_dict[metadata[hashes]["committer"]]["merge"][0] and metadata[hashes]["commit_timestamp"] < lieut_dict[metadata[hashes]["committer"]]["merge"][1]:

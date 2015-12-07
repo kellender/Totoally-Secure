@@ -31,7 +31,9 @@ def main():
   usage = "usage: %prog [option] repository.gitlink"
   parser = OptionParser(usage)
   
-  # parser.add_option("-c", "--Centralized-Workflow", dest="repository",
+  #options for the various parser
+
+  # workflows.add_option("-c", "--Centralized-Workflow", dest="repository",
   #                   default=None, action = "append",
   #                   help="Checks the specified repository with the centralized workflow checker")
 
@@ -70,16 +72,19 @@ def main():
   if (options.director_lieutenant_workflow):
     count = count + 1
 
+  #will change later to make feature branch the default workflow!! when no options are given!!!!
   if count == 0:
     parser.error("At least one option must be selected!")
   elif count > 1:
     parser.error("Options are mutually exclusive!")
 
-
+  #pasrse dictionary, clone repos, create meta data, and do check
   for key, value in options.__dict__.items():
     if value == None:
       continue
-    # If we end up here, the line contains a Git URL (+options?) for us to clone
+
+
+    # If we end up here, the line contains a Git URL for us to clone
     print "Checking out repo from", value, "..."
     git_process = subprocess.Popen("git clone " + value, cwd = os.getcwd(), shell = True, 
        stdout = subprocess.PIPE, stderr = subprocess.PIPE)
@@ -87,8 +92,13 @@ def main():
 
     os.chdir("./" + value.split('/')[-1])
 
-    #parsecommits go here!!!
+    #create metadata
+    #parse commits go here!!!
 
+
+
+
+    #check
     #option to call module goes here
     # if(key == feature_branch_workflow):
 

@@ -1,4 +1,5 @@
 #from https://github.com/SeattleTestbed/buildscripts 
+#usage python init_and_build.py [workflow option] URL
 """
 <Program>
   initialize.py 
@@ -24,10 +25,10 @@
 import subprocess
 import os
 import sys
-import parse_commits2
+import parse_repository
 from optparse import OptionParser
 
-def main():
+def main(args):
   usage = "usage: %prog [option] repository.gitlink"
   parser = OptionParser(usage)
   
@@ -74,14 +75,35 @@ def main():
 
   #will change later to make feature branch the default workflow!! when no options are given!!!!
   if count == 0:
-    parser.error("At least one option must be selected!")
+    print args[0]
+    clonecheck(None, args[0])
+    sys.exit(1)
   elif count > 1:
     parser.error("Options are mutually exclusive!")
 
   #pasrse dictionary, clone repos, create meta data, and do check
   for key, value in options.__dict__.items():
-    if value == None:
-      continue
+      if value == None:
+        continue
+      clonecheck(key, value)
+      sys.exit(1)
+
+
+  # If there is a readme file, show it to the user. 
+  try:
+    readme_file = open('README.txt', 'r')
+    for line in readme_file.readlines():
+      print line
+    readme_file.close()
+  except IOError:
+    # There is no readme file, or we can't access it.
+    pass
+
+
+
+
+def clonecheck(key, value):
+
 
 
     # If we end up here, the line contains a Git URL for us to clone
@@ -95,7 +117,7 @@ def main():
     #create metadata
     #parse commits go here!!!
 
-
+    parse_repository.parse_driver()
 
 
     #check
@@ -124,19 +146,6 @@ def main():
   and supply all of the above information. Thank you!
 
   """
-      sys.exit(1)
-
-
-  # If there is a readme file, show it to the user. 
-  try:
-    readme_file = open('README.txt', 'r')
-    for line in readme_file.readlines():
-      print line
-    readme_file.close()
-  except IOError:
-    # There is no readme file, or we can't access it.
-    pass
 
 if __name__ == "__main__":
-    main()
-
+    main(sys.argv)

@@ -286,49 +286,49 @@ def traverse( commit_hash, child_hash = None ) :
                 add_child( parent_hash, commit_hash )
 
 
+def parse_driver():
+    # hash of the HEAD commit
+    head = check_output( ["git", "rev-parse", "HEAD"] ).strip( )
+    # add the head commit to hashes
+    hashes.append( head )
+    # start the git commit object traversal
+    traverse( head )
 
-# hash of the HEAD commit
-head = check_output( ["git", "rev-parse", "HEAD"] ).strip( )
-# add the head commit to hashes
-hashes.append( head )
-# start the git commit object traversal
-traverse( head )
+    # add a commit type to each commit
+    for commit in metadata :
+        # is it the head or tail commit
+        hORt = False
 
-# add a commit type to each commit
-for commit in metadata :
-    # is it the head or tail commit
-    hORt = False
+        # if there are two or more children, it's a pre-branch/fork commit
+        # if there are no children, it's a HEAD commit
+        if "child2" in metadata[commit] :
+            add_type( commit, "pre-branch/fork" )
+        elif "child1" not in metadata[commit] :
+            add_type( commit, "HEAD" )
+            hORt = True
 
-    # if there are two or more children, it's a pre-branch/fork commit
-    # if there are no children, it's a HEAD commit
-    if "child2" in metadata[commit] :
-        add_type( commit, "pre-branch/fork" )
-    elif "child1" not in metadata[commit] :
-        add_type( commit, "HEAD" )
-        hORt = True
+        # if there are two or more parents, it's a merge commit
+        # if there are no parents, it's the tail commit
+        # also no need to mark as the TAIL if it's the HEAD
+        if "parent2" in metadata[commit] :
+            add_type( commit, "merge" )
+        elif "parent1" not in metadata[commit] and not hORt :
+            add_type( commit, "TAIL" )
+            hORt = True
 
-    # if there are two or more parents, it's a merge commit
-    # if there are no parents, it's the tail commit
-    # also no need to mark as the TAIL if it's the HEAD
-    if "parent2" in metadata[commit] :
-        add_type( commit, "merge" )
-    elif "parent1" not in metadata[commit] and not hORt :
-        add_type( commit, "TAIL" )
-        hORt = True
+        # if there are neither multiple parents nor multiple children
+        # it's a normal commit
+        if "parent2" not in metadata[commit] and \
+            "child2" not in metadata[commit] and not hORt :
+            add_type( commit, "commit" )
 
-    # if there are neither multiple parents nor multiple children
-    # it's a normal commit
-    if "parent2" not in metadata[commit] and \
-        "child2" not in metadata[commit] and not hORt :
-        add_type( commit, "commit" )
+    # check for code review
+    check_code_review( head )
 
-# check for code review
-check_code_review( head )
+    # perform Check for Violations
+    # this takes into account an ACL and outputs a JSON file
+    metadata_lib.checker_driver("acl.json", "violations.json", metadata)
 
-# perform Check for Violations
-# this takes into account an ACL and outputs a JSON file
-metadata_lib.checker_driver("acl.json", "violations.json", metadata)
-
-# write metadata to a file in a json format
-with open( "metadata.json", "w" ) as ofs :
-    ofs.write( json.dumps( metadata, indent = 4 ) )
+    # write metadata to a file in a json format
+    with open( "metadata.json", "w" ) as ofs :
+        ofs.write( json.dumps( metadata, indent = 4 ) )

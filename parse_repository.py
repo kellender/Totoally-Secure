@@ -18,7 +18,7 @@
 """
 
 from subprocess import check_output
-import json, metadata_lib
+import json, metadata_lib, check
 
 # hashes of commits that were already touched
 hashes = []
@@ -325,13 +325,9 @@ for commit in metadata :
 # check for code review
 check_code_review( head )
 
-print "Merges that have not been reviewed:"
-not_reviewed_merges = metadata_lib.detect_unreviewed_merges(metadata)
-if len(not_reviewed_merges) == 0:
-	print "None"
-else:
-	for hashes in not_reviewed_merges:
-		print hashes
+# perform Check for Violations
+# this takes into account an ACL and outputs a JSON file
+metadata_lib.checker_driver("acl.json", "violations.json", metadata)
 
 # write metadata to a file in a json format
 with open( "metadata.json", "w" ) as ofs :

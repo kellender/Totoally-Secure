@@ -13,7 +13,114 @@
     To provide a list of functions that may assist with parsing metadata data
     structure with a given policy.
 """
+
 from collections import Counter
+import json
+
+def __checker(metadata, permissions):
+    """
+	<Purpose>
+        Checks for unreviewed merges and unauthorized permissions
+    
+    <Arguments>
+		Metadata object
+		Permissions dictionary
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns dictionary with hashes as keys and values as error strings.
+    """
+    unreviewed = detect_unreviewed_merges(metadata)
+    violations = {}
+    for commit in metadata:
+        errStr = ''
+        author = metadata[commit]['author']
+        if commit in unreviewed:
+            errStr += ' Unreviewed merge.'
+		
+        if author not in permissions:
+            errStr += ' Author not in permissions.'
+        elif permissions[author]['write'] == "False" or 'write' not in permissions[author]:
+            errStr += ' Author does not have permission to write.'
+
+        committer = metadata[commit]['committer']
+        if committer not in permissions:
+            errStr += ' Committer not in permissions.'
+        elif 'commit' not in permissions[committer] or permissions[committer]['commit'] == "False":
+            errStr += ' Committer does not have permission to commit.'
+        if committer in permissions and 'merge' in metadata[commit]['commit_type']:
+            if permissions[committer]['merge'] == "False" or 'merge' not in permissions[committer]:
+                errStr += ' Committer does not have permission to merge.'
+        
+        if errStr == '':
+            violations[commit] = 'OK'
+        else:
+            violations[commit] = errStr
+    return violations
+
+def read_json(name):
+    """
+	<Purpose>
+        Reads JSON file and returns it as a dictionary.
+    
+    <Arguments>
+		Name of input file
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns dictionary
+    """
+    with open(name) as f:    
+    	data = json.load(f)
+	return data
+
+def write_json(name, data):
+	"""
+	<Purpose>
+        Writes dictionary to JSON file.
+    
+    <Arguments>
+		Name of output file
+		Dictionary to write in file
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns Nothing
+    """
+	with open(name, "w") as ofs :
+		ofs.write(json.dumps(data, indent = 4 ))
+
+def checker_driver(name, output, metadata):
+	"""
+	<Purpose>
+        Runs the checker algorithm and outputs in a JSON file the
+		violations found per hash if any was indeed found.
+    
+    <Arguments>
+		Name of permissions file (ACL JSON File)
+		Name of output file (JSON File)
+		Metadata object
+    
+    <Exceptions>
+        None. Program will fail silently if algorithm is not found.
+    
+    <Returns>
+        Returns Nothing
+    """
+	permissions = read_json(name)
+	violations = __checker(metadata, permissions)
+	write_json(output, violations)
+	count = 0
+	for hashes in violations:
+		if violations[hashes] != 'OK':
+			count += 1
+	print "Number of Violations found: ", count
 
 def return_hashes(metadata):
 	"""
@@ -53,7 +160,7 @@ def check(sub_key, value, metadata):
     """
     lst = []
     for key in metadata:
-        if metadata[key][sub_key] != value:
+        if value not in metadata[key][sub_key]:
             lst.append(key)
     return lst
 
@@ -77,7 +184,7 @@ def check_with_type(sub_key, value, metadata, type_):
     """
     lst = []
     for key in metadata:
-        if metadata[key][sub_key] != value and metadata[key]["commit_type"] == type_:
+        if value not in metadata[key][sub_key] and metadata[key]["commit_type"] == type_:
             lst.append(key)
     return lst
 

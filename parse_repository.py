@@ -327,7 +327,7 @@ def parse_driver():
 
     # perform Check for Violations
     # this takes into account an ACL and outputs a JSON file
-    metadata_lib.checker_driver("acl.json", "violations.json", metadata)
+    metadata_lib.checker_driver("../acl.json", "../violations.json", metadata)
 
     # write metadata to a file in a json format
     with open( "metadata.json", "w" ) as ofs :

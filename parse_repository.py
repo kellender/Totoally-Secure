@@ -18,7 +18,7 @@
 """
 
 from subprocess import check_output
-import json, metadata_lib
+import json, metadata_lib, check
 
 # hashes of commits that were already touched
 hashes = []
@@ -287,6 +287,8 @@ def traverse( commit_hash, child_hash = None ) :
 
 
 def parse_driver():
+    global metadata
+    global hashes
     # hash of the HEAD commit
     head = check_output( ["git", "rev-parse", "HEAD"] ).strip( )
     # add the head commit to hashes
@@ -325,10 +327,12 @@ def parse_driver():
     # check for code review
     check_code_review( head )
 
-    # perform Check for Violations
-    # this takes into account an ACL and outputs a JSON file
-    metadata_lib.checker_driver("../acl.json", "../violations.json", metadata)
+    
 
     # write metadata to a file in a json format
     with open( "metadata.json", "w" ) as ofs :
         ofs.write( json.dumps( metadata, indent = 4 ) )
+
+    # run checker from check.py
+    check.check(metadata, "../acl.json", "../violations.json")
+

@@ -20,14 +20,14 @@ from dateutil.parser import parse
 from pytz import utc
 
 def checker(metadata, permissions):
-    unreviewed = metadata_lib.detect_unreviewed_merges(metadata)
+#    unreviewed = metadata_lib.detect_unreviewed_merges(metadata)
     violations = {}
     if 'all' not in permissions:
         permissions['all'] = {}
     for commit in metadata:
         errStr = ''
-        if commit in unreviewed:
-            errStr += 'Unreviewed merge. '
+#        if commit in unreviewed:
+#            errStr += 'Unreviewed merge. '
         author = metadata[commit]['author']
         if 'write' in permissions['all'] and permissions['all']['write'] == True:
             pass
@@ -37,8 +37,8 @@ def checker(metadata, permissions):
             errStr += 'Author does not have permission to write. '
         elif type(permissions[author]['write']) == datetime:
             time_stamp = parse(metadata[commit]['author_timestamp'])
-            begin = parse(permissions[committer]['write'][0])
-            end = parse(permissions[committer]['write'][1])
+            begin = utc.localize(parse(permissions[committer]['write'][0]))
+            end = utc.localize(parse(permissions[committer]['write'][1]))
             if begin == None:
                 assert time_stamp > begin
             if end == None:
@@ -55,17 +55,20 @@ def checker(metadata, permissions):
             errStr += 'Committer not in permissions. '
         elif 'commit' not in permissions[committer] or permissions[committer]['commit'] == False:
             errStr += 'Committer does not have permission to commit. '
-        elif type(permissions[committer]['commit']) == tuple:
+        elif type(permissions[committer]['commit']) == list:
+            print 'tacos'
             time_stamp = parse(metadata[commit]['commit_timestamp'])
-            if permissions[committer]['commit'][0] == None:
-                assert time_stamp > permissions[committer]['commit'][0]
-            if permissions[committer]['commit'][1] == None:
-                assert time_stamp < permissions[committer]['commit'][1]
-            if time_stamp < permissions[committer]['commit'][0]:
-                errStr += 'Commit occured before committer had commit permission. '
-            elif time_stamp > permissions[committer]['commit'][1]:
-                errStr += "Commit occured after committer's commit permission expired. "
-
+            begin = utc.localize(parse(permissions[committer]['commit'][0]))
+            end = utc.localize(parse(permissions[committer]['commit'][1]))
+            if begin == None:
+                assert time_stamp > begin
+            if end == None:
+                assert time_stamp < end
+            if time_stamp < begin:
+                errStr += 'Commit occured before author had write permission. '
+            elif time_stamp > end:
+                errStr += "Commit occured after author's write permission expired. "
+            
         if committer in permissions and 'merge' in metadata[commit]['commit_type']:
             if 'merge' in permissions['all'] and permissions['all']['merge'] == True:
                 pass
@@ -73,14 +76,16 @@ def checker(metadata, permissions):
                 errStr += 'Committer does not have permission to merge. '
             elif type(permissions[committer]['merge']) == datetime:
                 time_stamp = parse(metadata[commit]['commit_timestamp'])
-                if permissions[committer]['merge'][0] == None:
-                    assert time_stamp > permissions[committer]['merge'][0]
-                if permissions[committer]['merge'][1] == None:
-                    assert time_stamp < permissions[committer]['merge'][1]
-                if time_stamp < permissions[committer]['merge'][0]:
-                    errStr += 'Merge occured before committer had merge permission. '
-                elif time_stamp > permissions[committer]['merge'][1]:
-                    errStr += "Merge occured after committer's merge permission expired. "
+                begin = utc.localize(parse(permissions[committer]['merge'][0]))
+                end = utc.localize(parse(permissions[committer]['merge'][1]))
+                if begin == None:
+                    assert time_stamp > begin
+                if end == None:
+                    assert time_stamp < end
+                if time_stamp < begin:
+                    errStr += 'Merge occured before author had write permission. '
+                elif time_stamp > end:
+                    errStr += "Merge occured after author's write permission expired. "
         
         if errStr == '':
             violations[commit] = 'OK'
@@ -92,17 +97,13 @@ def check(metadata, acl, violation):
     acl_data = metadata_lib.read_json(acl)
     metadata_lib.write_json(violation, checker(metadata, acl_data))
 
-'''
 if __name__ == '__main__':
     with open('acl.json', 'r') as f:
         acl = json.load(f)
-	"""
     dat = {
-        '1':{'author':'Tacos', 'committer':'Juan', 'type':'commit', 'commit_timestamp': "2015-11-20 08:42:27 +0100"},
-        '2':{'author':'Juan', 'committer':'Tacos', 'type':'merge', 'commit_timestamp': "2015-11-20 08:42:27 +0100"},
-           }
-	"""
-	dat = metadata_lib.read_json("metadata.json")
-    metadata_lib.write_json("violations.json", checker(dat, acl))
-'''
-
+        '1':{'author':'Tacos', 'committer':'Juan', 'commit_type':'commit', 'commit_timestamp': "2015-11-20 08:42:27 +0100"},
+        '2':{'author':'Juan', 'committer':'Tacos', 'commit_type':'merge', 'commit_timestamp': "2015-11-20 08:42:27 +0100"},
+        }
+    print checker(dat, acl)
+    #dat = metadata_lib.read_json("metadata.json")
+    #metadata_lib.write_json("violations.json", checker(dat, acl))

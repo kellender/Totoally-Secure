@@ -14,7 +14,246 @@
     structure with a given policy.
 """
 from collections import Counter
-import json
+import json, sys, os.path, re
+
+def check_acl(metadata, acl_name, violation):
+	"""
+	<Purpose>
+		Checks metadata against a list of permissions.
+		ALGORITHM OF THIS FUNCTION IS DEFINITELY NOT OPTIMIZED.
+		ONE TO THREE SUB FUNCTION SHOULD HANDLE commit, merge, and write.
+    
+    <Arguments>
+		metadata dictionary
+		acl_name or file name to permissions
+		violation is the output file name
+    
+    <Exceptions>
+        None
+    
+    <Returns>
+        Dict
+    """
+	acl = {}
+	if not os.path.isfile(acl_name):
+		print "Permission List does not exist."
+		sys.exit()
+	else:
+		acl = read_json(acl_name)
+	
+	unreviewed = detect_unreviewed_merges(metadata)
+	
+	violations = {}
+	
+	for commit in metadata:
+		errors = ""
+		if commit in unreviewed:
+			errors += "Merge not code reviewed. "
+		if metadata[commit]["author"] not in acl:
+			errors += "Author " + str(metadata[commit]["author"]) + " not in ACL. "
+		if metadata[commit]["committer"] not in acl:
+			errors += "Committer " + str(metadata[commit]["committer"]) + " not in ACL. "
+			if "merge" in metadata[commit]["commit_type"]:
+				errors += "Merger " + str(metadata[commit]["committer"]) + " not in ACL. "
+
+		if "merge" in metadata[commit]["commit_type"] and metadata[commit]["committer"] in acl:
+			if "merge" in acl[metadata[commit]["committer"]]:
+				if "start" in acl[metadata[commit]["committer"]]["merge"]:
+					if isinstance(acl[metadata[commit]["committer"]]["merge"]["start"], bool):
+						if acl[metadata[commit]["committer"]]["merge"]["start"] == True:
+							print "Merger of " + str(commit) + " has open date for start merge permission."
+						else:
+							errors += "Merger " + str(metadata[commit]["committer"]) + " does not have merge start permission. "
+					else:
+						if compare_time(acl[metadata[commit]["committer"]]["merge"]["start"], metadata[commit]["commit_timestamp"]) == False:
+							errors += "Merger " + str(metadata[commit]["committer"]) + " merged before permission was granted. "
+				else:
+					errors += "ACL does not have start merge time for " + metadata[commit]["committer"] + ". "
+				if "end" in acl[metadata[commit]["committer"]]["merge"]:
+					if isinstance(acl[metadata[commit]["committer"]]["merge"]["end"], bool):
+						if acl[metadata[commit]["committer"]]["merge"]["end"] == True:
+							print "Merger of " + str(commit) + " has open date for end merge permission."
+						else:
+							errors += "Merger " + str(metadata[commit]["committer"]) + " does not have merge end permission. "
+					else:
+						if compare_time(metadata[commit]["commit_timestamp"], acl[metadata[commit]["committer"]]["merge"]["end"]) == False:
+							errors += "Merger " + str(metadata[commit]["committer"]) + " merged after permission has expired. "
+				else:
+					errors += "ACL does not have end merge time for " + metadata[commit]["committer"] + ". "
+				if "layer" in acl[metadata[commit]["committer"]]["merge"]:
+					if isinstance(acl[metadata[commit]["committer"]]["merge"]["layer"], bool):
+						if acl[metadata[commit]["committer"]]["merge"]["layer"] == True:
+							print "Merger of " + str(commit) + " can merge in any layer."
+						else:
+							errors += "Merger " + str(metadata[commit]["committer"]) + " does not have merge permissions in layer " + str(metadata[commit]["layer"]) + ". "
+					else:
+						if str(metadata[commit]["layer"]) in acl[metadata[commit]["committer"]]["merge"]["layer"]:
+							print "Merger of " + str(commit) + " can merge in layer " + str(metadata[commit]["layer"])
+						else:
+							errors += "Merger " + str(metadata[commit]["committer"]) + " does not have merge permissions in layer " + str(metadata[commit]["layer"]) + ". "
+				else:
+					errors += "Merger " + str(metadata[commit]["committer"]) + " does not have merge permissions in layer " + str(metadata[commit]["layer"]) + ". "
+				if "branch" in acl[metadata[commit]["committer"]]["merge"]:
+					if isinstance(acl[metadata[commit]["committer"]]["merge"]["branch"], bool):
+						if acl[metadata[commit]["committer"]]["merge"]["branch"] == True:
+							print "Merger of " + str(commit) + " can write in any branch."
+						else:
+							errors += "Merger " + str(metadata[commit]["committer"]) + " does not have merge permissions in branch " + str(metadata[commit]["branch"]) + ". "
+					else:
+						if str(metadata[commit]["branch"]) in acl[metadata[commit]["committer"]]["merge"]["branch"]:
+							print "Merger of " + str(commit) + " can merge in branch " + str(metadata[commit]["branch"])
+						else:
+							errors += "Merger " + str(metadata[commit]["committer"]) + " does not have merge permissions in branch " + str(metadata[commit]["branch"]) + ". "
+				else:
+					errors += "Merger " + str(metadata[commit]["committer"]) + " does not have merge permissions in branch " + str(metadata[commit]["branch"]) + ". "
+					
+				
+		if metadata[commit]["author"] in acl:
+			if "write" in acl[metadata[commit]["author"]]:
+				if "start" in acl[metadata[commit]["author"]]["write"]:
+					if isinstance(acl[metadata[commit]["author"]]["write"]["start"], bool):
+						if acl[metadata[commit]["author"]]["write"]["start"] == True:
+							print "Author of " + str(commit) + " has open date for start write permission."
+						else:
+							errors += "Author " + str(metadata[commit]["author"]) + " does not have write start permission. "
+					else:
+						if compare_time(acl[metadata[commit]["author"]]["write"]["start"], metadata[commit]["author_timestamp"]) == False:
+							errors += "Author " + str(metadata[commit]["author"]) + " wrote before permission was granted. "
+				else:
+					errors += "ACL does not have start write time for " + metadata[commit]["author"] + ". "
+				if "end" in acl[metadata[commit]["author"]]["write"]:
+					if isinstance(acl[metadata[commit]["author"]]["write"]["end"], bool):
+						if acl[metadata[commit]["author"]]["write"]["end"] == True:
+							print "Author of " + str(commit) + " has open date for end write permission."
+						else:
+							errors += "Author " + str(metadata[commit]["committer"]) + " does not have write end permission. "
+					else:
+						if compare_time(metadata[commit]["author_timestamp"], acl[metadata[commit]["author"]]["write"]["end"]) == False:
+							errors += "Author " + str(metadata[commit]["author"]) + " wrote after permission has expired. "
+				else:
+					errors += "ACL does not have end write time for " + metadata[commit]["author"] + ". "
+				if "layer" in acl[metadata[commit]["author"]]["write"]:
+					if isinstance(acl[metadata[commit]["author"]]["write"]["layer"], bool):
+						if acl[metadata[commit]["author"]]["write"]["layer"] == True:
+							print "Author of " + str(commit) + " can write in any layer."
+						else:
+							errors += "Author " + str(metadata[commit]["author"]) + " does not have write permissions in layer " + str(metadata[commit]["layer"]) + ". "
+					else:
+						if str(metadata[commit]["layer"]) in acl[metadata[commit]["author"]]["write"]["layer"]:
+							print "Author of " + str(commit) + " can write in layer " + str(metadata[commit]["layer"])
+						else:
+							errors += "Author " + str(metadata[commit]["author"]) + " does not have write permissions in layer " + str(metadata[commit]["layer"]) + ". "
+				else:
+					errors += "Author " + str(metadata[commit]["author"]) + " does not have write permissions in layer " + str(metadata[commit]["layer"]) + ". "
+				if "branch" in acl[metadata[commit]["author"]]["write"]:
+					if isinstance(acl[metadata[commit]["author"]]["write"]["branch"], bool):
+						if acl[metadata[commit]["author"]]["write"]["branch"] == True:
+							print "Author of " + str(commit) + " can write in any branch."
+						else:
+							errors += "Author " + str(metadata[commit]["author"]) + " does not have write permissions in branch " + str(metadata[commit]["branch"]) + ". "
+					else:
+						if str(metadata[commit]["branch"]) in acl[metadata[commit]["author"]]["write"]["branch"]:
+							print "Author of " + str(commit) + " can write in branch " + str(metadata[commit]["branch"])
+						else:
+							errors += "Author " + str(metadata[commit]["author"]) + " does not have write permissions in branch " + str(metadata[commit]["branch"]) + ". "
+				else:
+					errors += "Author " + str(metadata[commit]["author"]) + " does not have write permissions in branch " + str(metadata[commit]["branch"]) + ". "
+
+
+		if metadata[commit]["committer"] in acl and "merge" not in metadata[commit]["commit_type"]:
+			if "commit" in acl[metadata[commit]["committer"]]:
+				if "start" in acl[metadata[commit]["committer"]]["commit"]:
+					if isinstance(acl[metadata[commit]["committer"]]["commit"]["start"], bool):
+						if acl[metadata[commit]["committer"]]["commit"]["start"] == True:
+							print "Committer of " + str(commit) + " has open date for start commit permission."
+						else:
+							errors += "Committer " + str(metadata[commit]["committer"]) + " does not have commit start permission. "
+					else:
+						if compare_time(acl[metadata[commit]["committer"]]["commit"]["start"], metadata[commit]["commit_timestamp"]) == False:
+							errors += "Committer " + str(metadata[commit]["committer"]) + " committed before permission was granted. "
+				else:
+					errors += "ACL does not have start commit time for " + metadata[commit]["committer"] + ". "
+				if "end" in acl[metadata[commit]["committer"]]["commit"]:
+					if isinstance(acl[metadata[commit]["committer"]]["commit"]["end"], bool):
+						if acl[metadata[commit]["committer"]]["commit"]["end"] == True:
+							print "Committer of " + str(commit) + " has open date for end write permission."
+						else:
+							errors += "Merger " + str(metadata[commit]["committer"]) + " does not have commit end permission. "
+					else:
+						if compare_time(metadata[commit]["commit_timestamp"], acl[metadata[commit]["committer"]]["commit"]["end"]) == False:
+							errors += "Committer " + str(metadata[commit]["committer"]) + " committed after permission has expired. "
+				else:
+					errors += "ACL does not have end commit time for " + metadata[commit]["committer"] + ". "
+				if "layer" in acl[metadata[commit]["committer"]]["commit"]:
+					if isinstance(acl[metadata[commit]["committer"]]["commit"]["layer"], bool):
+						if acl[metadata[commit]["committer"]]["commit"]["layer"] == True:
+							print "Committer of " + str(commit) + " can commit in any layer."
+						else:
+							errors += "Committer " + str(metadata[commit]["committer"]) + " does not have commit permissions in layer " + str(metadata[commit]["layer"]) + ". "
+					else:
+						if str(metadata[commit]["layer"]) in acl[metadata[commit]["committer"]]["commit"]["layer"]:
+							print "Committer of " + str(commit) + " can commit in layer " + str(metadata[commit]["layer"])
+						else:
+							errors += "Committer " + str(metadata[commit]["committer"]) + " does not have commit permissions in layer " + str(metadata[commit]["layer"]) + ". "
+				else:
+					errors += "Committer " + str(metadata[commit]["committer"]) + " does not have commit permissions in layer " + str(metadata[commit]["layer"]) + ". "
+				if "branch" in acl[metadata[commit]["committer"]]["commit"]:
+					if isinstance(acl[metadata[commit]["committer"]]["commit"]["branch"], bool):
+						if acl[metadata[commit]["committer"]]["commit"]["branch"] == True:
+							print "Committer of " + str(commit) + " can commit in any branch."
+						else:
+							errors += "Committer " + str(metadata[commit]["committer"]) + " does not have commit permissions in branch " + str(metadata[commit]["branch"]) + ". "
+					else:
+						if str(metadata[commit]["branch"]) in acl[metadata[commit]["committer"]]["commit"]["branch"]:
+							print "Committer of " + str(commit) + " can commit in branch " + str(metadata[commit]["branch"])
+						else:
+							errors += "Committer " + str(metadata[commit]["committer"]) + " does not have commit permissions in branch " + str(metadata[commit]["branch"]) + ". "
+				else:
+					errors += "Committer " + str(metadata[commit]["committer"]) + " does not have commit permissions in branch " + str(metadata[commit]["branch"]) + ". "
+		
+		violations[commit] = errors
+	counter = 0
+	for i in violations:
+		if violations[i] != "":
+			counter += 1
+	print "There are " + str(counter) + " commits/hashes with violations."
+	write_json(violation, violations)
+	return violations
+						
+
+
+def compare_time(start, end):
+	"""
+	<Purpose>
+		Manually compares two times.
+        Returns True if end time is more recent than start time.
+		Returns False otherwise.
+    
+    <Arguments>
+		start time
+		end time
+    
+    <Exceptions>
+        None
+    
+    <Returns>
+        Bool
+    """
+	s = re.split('-|\+|:| ', start)
+	e = re.split('-|\+|:| ', end)
+	if s[0] > e[0]:
+		return False
+		if s[1] > e[1]:
+			return False
+			if s[2] > e[2]:
+				return False
+				if s[3] > e[3]:
+					return False
+					if s[4] > e[4]:
+						return False
+						if s[5] > e[5]:
+							return False
+	return True
 
 def read_json(name):
     """

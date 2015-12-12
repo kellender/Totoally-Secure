@@ -18,7 +18,7 @@
 """
 
 from subprocess import check_output
-import json, metadata_lib, check
+import json, metadata_lib
 
 # hashes of commits that were already touched
 hashes = []
@@ -334,5 +334,5 @@ def parse_driver():
         ofs.write( json.dumps( metadata, indent = 4 ) )
 
     # run checker from check.py
-    check.check(metadata, "../acl.json", "../violations.json")
-
+    metadata_lib.check_acl(metadata, "acl.json", "violations.json")
+parse_driver()

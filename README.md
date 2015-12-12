@@ -32,7 +32,7 @@ python ctrl.py -u "John Doe <johndoe@random.com>" -p merge -s "2015-12-12 00:00:
 Definitions
 ```
 -u, --user:         Usename		(i.e: "John Doe <johndoe@random.com>")  
--p, --permission:   Permission	(i.e: commit merge, write)  
+-p, --permission:   Permission	(i.e: commit, merge, write)  
 -s, --start:        Start Time	(i.e: "2015-12-12 00:00:00", true, false)  
 -e, --end:          End Time	(i.e: "2015-12-12 00:00:00", true, false)  
 -l, --layer:        Layer		(i.e: 0,1,2 or "0 1 2" or 0;1;2)  
@@ -84,6 +84,21 @@ A "violations.json" file should have been created listing all the commit hashes 
     ...
 }
 ```
+  
+Definitions
+ ```
+ "code_reviewed":	Checks whether author's code has been merged by another person
+ "childN":		Hash of the next commit in time; if N is greater than 1, there is at least 1 branch or fork
+ "layer":		Number of merges away from the master repository a branch is
+ "branch":		Unique branch name given to a respository
+ "committer"		Committer that pushed
+ "author":		Writer/author/Owner of code
+ "parentN":		Hash of previous commit in time, if N is greater than 1, there is at least 1 merge
+ "commit_type":		Commit type may be commit (regular update or push), merge, or branch/fork
+ "commit_timestamp"	Timestamp for commit being pushed/committed
+ "author_timestamp":	Timestamp for written code being pushed/committed
+ ```
+   
 # ACL Format
 ```
 {
@@ -142,6 +157,18 @@ A "violations.json" file should have been created listing all the commit hashes 
 }
 ```
   
+Definitions
+ ```
+ "user":	Name of programmer with an email address appended
+ "merge":	Key for dictionary of permissions for merging
+ "commit":	Key for dictionary of permissions for commit
+ "write":	Key for dictionary of permissions for write
+ "start":	Start date when permission grants; if bool value of true, start time is open or ambigious
+ "end":		End date when permission expires; if bool value of true, end time is open or ambigious
+ "layer":	List of layers that permission grants; if bool value of true, all layers are included or else none are
+ "branch":	List of branches that permission grants; if bool value of true, all branches are included or else none are
+ ```
+   
 # Violations Format
 ```
 {
@@ -176,4 +203,10 @@ A "violations.json" file should have been created listing all the commit hashes 
     "b6d0e1d074c6540dbc31717203fedc01ab8af7c1": "Author Dave Tucker <dt@docker.com> not in ACL. Committer Dave Tucker <dt@docker.com> not in ACL. ",
   ...
 }
+```
+  
+Defintions
+```
+"<hash>":	Key or Hash of commit from metadata dictionary or metadata.json file
+"string":	Error string displaying all the errors for that commit based on acl.json file
 ```

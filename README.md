@@ -87,15 +87,15 @@ A "violations.json" file should have been created listing all the commit hashes 
   
 Definitions
  ```
- "code_reviewed":	Checks whether author's code has been merged by another person
- "childN":		Hash of the next commit in time; if N is greater than 1, there is at least 1 branch or fork
- "layer":		Number of merges away from the master repository a branch is
- "branch":		Unique branch name given to a respository
- "committer"		Committer that pushed
- "author":		Writer/author/Owner of code
- "parentN":		Hash of previous commit in time, if N is greater than 1, there is at least 1 merge
- "commit_type":		Commit type may be commit (regular update or push), merge, or branch/fork
- "commit_timestamp"	Timestamp for commit being pushed/committed
+ "code_reviewed":		Checks whether author's code has been merged by another person
+ "childN":				Hash of the next commit in time; if N is greater than 1, there is at least 1 branch or fork
+ "layer":				Number of merges away from the master repository a branch is
+ "branch":				Unique branch name given to a respository
+ "committer"			Committer that pushed
+ "author":				Writer/author/Owner of code
+ "parentN":				Hash of previous commit in time, if N is greater than 1, there is at least 1 merge
+ "commit_type":			Commit type may be commit (regular update or push), merge, or branch/fork
+ "commit_timestamp"		Timestamp for commit being pushed/committed
  "author_timestamp":	Timestamp for written code being pushed/committed
  ```
    
@@ -208,5 +208,5 @@ Definitions
 Defintions
 ```
 "<hash>":	Key or Hash of commit from metadata dictionary or metadata.json file
-"string":	Error string displaying all the errors for that commit based on acl.json file
+"<string>":	Error string displaying all the errors for that commit based on acl.json file
 ```

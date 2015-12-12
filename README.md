@@ -31,12 +31,12 @@ python ctrl.py -u "John Doe <johndoe@random.com>" -p merge -s "2015-12-12 00:00:
 
 Definitions
 ```
--u, --user:         Usename	(i.e: "John Doe <johndoe@random.com>")  
+-u, --user:         Usename		(i.e: "John Doe <johndoe@random.com>")  
 -p, --permission:   Permission	(i.e: commit merge, write)  
 -s, --start:        Start Time	(i.e: "2015-12-12 00:00:00", true, false)  
 -e, --end:          End Time	(i.e: "2015-12-12 00:00:00", true, false)  
--l, --layer:        Layer	(i.e: 0,1,2 or "0 1 2" or 0;1;2)  
--b, --branch:       Branch	(i.e: 0,1,2 or "0 1 2" or 0;1;2)  
+-l, --layer:        Layer		(i.e: 0,1,2 or "0 1 2" or 0;1;2)  
+-b, --branch:       Branch		(i.e: 0,1,2 or "0 1 2" or 0;1;2)  
 ```
   
 The current system generates a JSON file named "acl.json" which "metadata_lib.py" via "parse_repository.py" will use to run checks against "parse_repository.py"'s metadata dictionary which is also found in "metadata.json".

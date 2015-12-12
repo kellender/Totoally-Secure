@@ -11,6 +11,7 @@
     
 <Purpose>
     Command line tool to edit permissions in JSON file.
+    Tool can be used independently if necessary.
 """
 
 import json, sys, os.path, getopt, re

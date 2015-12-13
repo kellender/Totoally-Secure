@@ -57,29 +57,104 @@ A "violations.json" file should have been created listing all the commit hashes 
 # Metadata Format
 ```
 {
-    "a0c23ade1a276d4ea23632f517b179a364a16aaa": {
+    "612efb5ded0fc3b417a9e272c62a5d170b18695b": {
         "code_reviewed": "False", 
-        "child1": "4e5dda2da0884eee83d9383c3ecd589ba2d75b74", 
-        "layer": 0, 
-        "branch": "master", 
-        "committer": "Adrien Duermael <adrien@docker.com>", 
-        "author": "Adrien Duermael <adrien@docker.com>", 
-        "parent1": "e5a40df975c691cafbdc714d536ff8451e7d9e4c", 
+        "child1": "bf35ff2159f6fe94e763f00c6651994aa520f48d", 
+        "layer": 1, 
+        "branch": 9, 
+        "committer": "Jan Karger <punkerat76@gmail.com>", 
+        "author": "Jan Karger <punkerat76@gmail.com>", 
+        "parent1": "c703e36c0b3f2dbf910c0a7ddb957a04ec81a9e5", 
         "commit_type": "commit", 
-        "commit_timestamp": "2015-06-24 19:10:02 -0700", 
-        "author_timestamp": "2015-06-24 19:10:02 -0700"
+        "commit_timestamp": "2015-11-19 10:37:16 +0100", 
+        "author_timestamp": "2015-11-19 10:37:16 +0100"
     }, 
-    "31d005f75223323d72ca3ea1ab8b1875f0f4300a": {
+    "19888e6822aed62eb7665a36679262248c9cb1c5": {
         "code_reviewed": "False", 
-        "child1": "25bf67188ecdacbd68f5bfcc1dec74e0fc6a6f9f", 
+        "child1": "046b87e06724d22aea61e8e0e5a304c03e1e2ea5", 
         "layer": 0, 
-        "branch": "master", 
-        "committer": "Gaetan de Villele <gdevillele@gmail.com>", 
-        "author": "Gaetan de Villele <gdevillele@gmail.com>", 
-        "parent1": "dbdcb6c594867e348c3aed82ddb19bc2b5106c7f", 
+        "branch": 0, 
+        "committer": "Benjamin Pasero <benjpas@microsoft.com>", 
+        "author": "Benjamin Pasero <benjpas@microsoft.com>", 
+        "parent1": "2c7bfe53b26d005af0b1cbb87c675140863f4718", 
         "commit_type": "commit", 
-        "commit_timestamp": "2015-06-23 13:15:58 -0700", 
-        "author_timestamp": "2015-06-23 13:15:58 -0700"
+        "commit_timestamp": "2015-11-20 13:00:28 +0100", 
+        "author_timestamp": "2015-11-20 13:00:28 +0100"
+    }, 
+    "6e94b27e06cef23a84fca0aff18b7702dc670014": {
+        "code_reviewed": "False", 
+        "child1": "cc24139a40632ce4b0b7d124871b5cb86b9be060", 
+        "layer": 0, 
+        "branch": 0, 
+        "committer": "Benjamin Pasero <benjpas@microsoft.com>", 
+        "author": "Benjamin Pasero <benjpas@microsoft.com>", 
+        "parent1": "01751b055930bb27dc1e0c1ca0599aba19b9c5ff", 
+        "commit_type": "commit", 
+        "commit_timestamp": "2015-11-20 08:42:27 +0100", 
+        "author_timestamp": "2015-11-20 08:42:27 +0100"
+    }, 
+    "60d10f9ae3b052cbad8a65579f7586d0a883e2ee": {
+        "code_reviewed": "False", 
+        "child1": "c7db0af7e3b1a20242e0600169b77baebaf16e2f", 
+        "layer": 0, 
+        "branch": 0, 
+        "committer": "Andre Weinand <aweinand@microsoft.com>", 
+        "author": "Andre Weinand <aweinand@microsoft.com>", 
+        "parent1": "ccc4c18231004e1b7c1c6b7ee50eeb3c5d8d288a", 
+        "commit_type": "commit", 
+        "commit_timestamp": "2015-11-20 15:34:13 +0100", 
+        "author_timestamp": "2015-11-20 15:33:32 +0100"
+    }, 
+    "2ebf742c9444b23f7daaeebe5e28c708ac33dd95": {
+        "code_reviewed": "False", 
+        "child1": "1bdaaaea404281f4f248fab70bede7d6ac60e99f", 
+        "child2": "a8c6596266df01acd4fac3529091795476f0cec7", 
+        "branch": 0, 
+        "committer": "Chris Dias <chris@diasfam.com>", 
+        "author": "Chris Dias <chris@diasfam.com>", 
+        "layer": 0, 
+        "parent1": "80299a8d4902cd92354f2525a44de7166d6187ce", 
+        "commit_type": "pre-branch/fork", 
+        "commit_timestamp": "2015-11-15 21:59:34 +0100", 
+        "author_timestamp": "2015-11-15 21:59:34 +0100"
+    }, 
+    "8f82b037fe9a5e8210dcd345bdb69fba0ff50f81": {
+        "code_reviewed": "False", 
+        "child1": "ef99de7936d45c4199fa51b5654130dafefabe68", 
+        "layer": 0, 
+        "branch": 0, 
+        "committer": "Martin Aeschlimann <martinae@microsoft.com>", 
+        "author": "Martin Aeschlimann <martinae@microsoft.com>", 
+        "parent1": "d62a44820f684b5bce629f191e6c53da36acaf3e", 
+        "commit_type": "commit", 
+        "commit_timestamp": "2015-11-13 18:17:22 +0100", 
+        "author_timestamp": "2015-11-13 18:17:22 +0100"
+    }, 
+    "9159003d6c5b36ece74f2acd401750c7a1778241": {
+        "code_reviewed": "True", 
+        "child1": "15ddb39bed219c79a0930fca6f32f354d64da17b", 
+        "layer": 0, 
+        "branch": 0, 
+        "committer": "Martin Aeschlimann <martinae@microsoft.com>", 
+        "author": "Martin Aeschlimann <martinae@microsoft.com>", 
+        "parent2": "f7bd7e8fb3c17ec209d223e5cfa696bfd55064f8", 
+        "parent1": "ad5c5295647f4c1b418cb07616ee648faa4e83f1", 
+        "commit_type": "merge", 
+        "commit_timestamp": "2015-11-20 16:18:02 +0100", 
+        "author_timestamp": "2015-11-20 16:18:02 +0100"
+    }, 
+    "9731e5287c97a08005303359d299ab8ea6d6449e": {
+        "code_reviewed": "False", 
+        "child1": "b703e6779c1e309cfa5d40e9dbe5d0df4b4eb352", 
+        "child2": "0c3603a554578788aec82c4d972bf796b1914c96", 
+        "branch": 0, 
+        "committer": "Joao Moreno <jomo@microsoft.com>", 
+        "author": "Joao Moreno <jomo@microsoft.com>", 
+        "layer": 0, 
+        "parent1": "a0c6a74e24cce5b673c88cd67382ccbb063ea164", 
+        "commit_type": "pre-branch/fork", 
+        "commit_timestamp": "2015-11-20 09:24:36 +0100", 
+        "author_timestamp": "2015-11-20 09:24:36 +0100"
     },
     ...
 }
@@ -89,8 +164,8 @@ Definitions
  ```
  "code_reviewed":		Checks whether author's code has been merged by another person
  "childN":				Hash of the next commit in time; if N is greater than 1, there is at least 1 branch or fork
- "layer":				Number of merges away from the master repository a branch is
- "branch":				Unique branch name given to a respository
+ "layer":				Number of merges away from the master repository a branch is; 0 is master
+ "branch":				Unique branch number given to a respository; 0 is master
  "committer"			Committer that pushed
  "author":				Writer/author/Owner of code
  "parentN":				Hash of previous commit in time, if N is greater than 1, there is at least 1 merge
@@ -102,12 +177,46 @@ Definitions
 # ACL Format
 ```
 {
-    "Gaetan de Villele <gdevillele@gmail.com>": {
+    "Martin Aeschlimann <martinae@microsoft.com>": {
         "write": {
-            "start": "1800-12-10 00-00-00", 
-            "layer": true, 
-            "end": "1900-12-11 00-00-00",
+            "start": "2015-11-19 00:00:00", 
+            "layer": [
+                "0", 
+                "1", 
+                "2"
+            ], 
+            "end": true, 
             "branch": true
+        }, 
+        "commit": {
+            "start": "2015-11-19 00:00:00", 
+            "layer": [
+                "0", 
+                "1", 
+                "2"
+            ], 
+            "end": true, 
+            "branch": true
+        }, 
+        "merge": {
+            "start": "2015-11-19 00:00:00", 
+            "layer": [
+                "0", 
+                "1", 
+                "2"
+            ], 
+            "end": true, 
+            "branch": true
+        }
+    }, 
+    "Jan Karger <punkerat76@gmail.com>": {
+        "write": {
+            "start": "2014-12-01 00-00-00", 
+            "layer": [
+                "0", 
+                "1"
+            ], 
+            "end": "2015-12-11 00-00-00"
         }, 
         "merge": {
             "start": "2014-12-01 00-00-00", 
@@ -115,8 +224,7 @@ Definitions
                 "0", 
                 "1"
             ], 
-            "end": "2014-12-11 00-00-00",
-            "branch": true
+            "end": "2015-12-11 00-00-00"
         }, 
         "commit": {
             "start": "2014-12-01 00-00-00", 
@@ -124,36 +232,10 @@ Definitions
                 "0", 
                 "1"
             ], 
-            "end": "2014-12-11 00-00-00",
-            "branch": true
+            "end": "2015-12-11 00-00-00"
         }
     },
-	"Gaetan <gdevillele@gmail.com>": {
-        "write": {
-            "start": "1800-12-10 00-00-00", 
-            "layer": true, 
-            "end": "1900-12-11 00-00-00",
-            "branch": true
-        }, 
-        "merge": {
-            "start": "2014-12-01 00-00-00", 
-            "layer": [
-                "0", 
-                "1"
-            ], 
-            "end": "2014-12-11 00-00-00",
-            "branch": true
-        }, 
-        "commit": {
-            "start": "2014-12-01 00-00-00", 
-            "layer": [
-                "0", 
-                "1"
-            ], 
-            "end": "2014-12-11 00-00-00",
-            "branch": true
-        }
-    }
+    ...
 }
 ```
   
@@ -172,35 +254,55 @@ Definitions
 # Violations Format
 ```
 {
-    "a0c23ade1a276d4ea23632f517b179a364a16aaa": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "31d005f75223323d72ca3ea1ab8b1875f0f4300a": "Author Gaetan de Villele <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan de Villele <gdevillele@gmail.com> does not have write permissions in branch master. Committer Gaetan de Villele <gdevillele@gmail.com> committed after permission has expired. Committer Gaetan de Villele <gdevillele@gmail.com> does not have commit permissions in branch master. ", 
-    "2ce9a4838446111c5235aa5a340c9c723df9ff1b": "Author Gaetan de Villele <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan de Villele <gdevillele@gmail.com> does not have write permissions in branch master. Committer Gaetan de Villele <gdevillele@gmail.com> committed after permission has expired. Committer Gaetan de Villele <gdevillele@gmail.com> does not have commit permissions in branch master. ", 
-    "0d9b22584a658fed061b51eb01ee672025cdaad6": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "c6f38372baa477fac494daedd33eae43019616ca": "Author Gaetan de Villele <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan de Villele <gdevillele@gmail.com> does not have write permissions in branch master. Committer Gaetan de Villele <gdevillele@gmail.com> committed after permission has expired. Committer Gaetan de Villele <gdevillele@gmail.com> does not have commit permissions in branch master. ", 
-    "4c255be43182af8bdf8d371e5d2d2b4964f7346e": "Merger Gaetan <gdevillele@gmail.com> merged after permission has expired. Merger Gaetan <gdevillele@gmail.com> does not have merge permissions in branch master. Author Gaetan <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan <gdevillele@gmail.com> does not have write permissions in branch master. ", 
-    "943b7b14a3c7aa24b016d3733ca2993f7c0c0cd3": "Merger Gaetan <gdevillele@gmail.com> merged after permission has expired. Merger Gaetan <gdevillele@gmail.com> does not have merge permissions in branch master. Author Gaetan <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan <gdevillele@gmail.com> does not have write permissions in branch master. ", 
-    "21a15ed8c902ae889cb3d14490ebfe9ece2a0f80": "Merger Gaetan <gdevillele@gmail.com> merged after permission has expired. Merger Gaetan <gdevillele@gmail.com> does not have merge permissions in branch master. Author Gaetan <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan <gdevillele@gmail.com> does not have write permissions in branch master. ", 
-    "eec9594ad1d90227aca54781808d9ad2c7a6e017": "Merger Gaetan <gdevillele@gmail.com> merged after permission has expired. Merger Gaetan <gdevillele@gmail.com> does not have merge permissions in branch master. Author Gaetan <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan <gdevillele@gmail.com> does not have write permissions in branch master. ", 
-    "b57b303fd5dfc48b923c7d54324527189a9c3aaa": "Author Gaetan de Villele <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan de Villele <gdevillele@gmail.com> does not have write permissions in branch branch12. Committer Gaetan de Villele <gdevillele@gmail.com> committed after permission has expired. Committer Gaetan de Villele <gdevillele@gmail.com> does not have commit permissions in branch branch12. ", 
-    "4a1d156e7256acfac13229497ea0cbc00212136a": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "1d50d516cc5bbc434881ca3bad6c242da6a63f29": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "f98aea6c967c97dd670009a7490c6c5a9a95b845": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. Merger Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "25bf67188ecdacbd68f5bfcc1dec74e0fc6a6f9f": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "fc94aa38f29ccae5108c6318587fc182b79d40b7": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "36aa5f3d50c2a4898cc95cd6a055e45227823294": "Author Dave Tucker <dt@docker.com> not in ACL. Committer Dave Tucker <dt@docker.com> not in ACL. ", 
-    "06e5a323c6760762e7de0827cfb8b64a1d17dca2": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "21677b3d21320e39cad304e22604da51f78bf06b": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "43d7a53c7b01a4792ec689c9d720940c765d0f6c": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "22a69a77b2442e668fcff2aa9921e5528016a91b": "Author Dave Tucker <dt@docker.com> not in ACL. Committer Dave Tucker <dt@docker.com> not in ACL. ", 
-    "240ed3f035f2603b89eb56dfd93795a63912d5d2": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "fb45be9d7df6ce39f2c2674dabf4f2093802cd59": "Merger Gaetan <gdevillele@gmail.com> merged after permission has expired. Merger Gaetan <gdevillele@gmail.com> does not have merge permissions in branch master. Author Gaetan <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan <gdevillele@gmail.com> does not have write permissions in branch master. ", 
-    "9aeba24a6ee5d3be826c55e5fdaf6a16476b223f": "Author Gaetan de Villele <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan de Villele <gdevillele@gmail.com> does not have write permissions in branch master. Committer Gaetan de Villele <gdevillele@gmail.com> committed after permission has expired. Committer Gaetan de Villele <gdevillele@gmail.com> does not have commit permissions in branch master. ", 
-    "2922361ada17e9011a43e6d7c47f54b17d14d7d7": "Author Gaetan de Villele <gdevillele@gmail.com> wrote after permission has expired. Author Gaetan de Villele <gdevillele@gmail.com> does not have write permissions in branch master. Committer Gaetan de Villele <gdevillele@gmail.com> committed after permission has expired. Committer Gaetan de Villele <gdevillele@gmail.com> does not have commit permissions in branch master. ", 
-    "3c7d74520df2de4873aa21e28b72596aee459556": "Author Dave Tucker <dt@docker.com> not in ACL. Committer Dave Tucker <dt@docker.com> not in ACL. ", 
-    "520171a32a84bad7bbd2eb5cc27ab0166b46bbc4": "Author Dave Tucker <dave@dtucker.co.uk> not in ACL. Committer Dave Tucker <dave@dtucker.co.uk> not in ACL. Merger Dave Tucker <dave@dtucker.co.uk> not in ACL. ", 
-    "8b2c01eaf9da7de4a4c1fab90c320758fda4c377": "Merge not code reviewed. Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. Merger Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "f1db84acd81744b181192a0a2193e69acb865db5": "Author Adrien Duermael <adrien@docker.com> not in ACL. Committer Adrien Duermael <adrien@docker.com> not in ACL. ", 
-    "b6d0e1d074c6540dbc31717203fedc01ab8af7c1": "Author Dave Tucker <dt@docker.com> not in ACL. Committer Dave Tucker <dt@docker.com> not in ACL. ",
+    "612efb5ded0fc3b417a9e272c62a5d170b18695b": "Author Jan Karger <punkerat76@gmail.com> does not have write permissions in branch 9. Committer Jan Karger <punkerat76@gmail.com> does not have commit permissions in branch 9. ", 
+    "19888e6822aed62eb7665a36679262248c9cb1c5": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "6e94b27e06cef23a84fca0aff18b7702dc670014": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "60d10f9ae3b052cbad8a65579f7586d0a883e2ee": "Author Andre Weinand <aweinand@microsoft.com> not in ACL. Committer Andre Weinand <aweinand@microsoft.com> not in ACL. ", 
+    "2ebf742c9444b23f7daaeebe5e28c708ac33dd95": "Author Chris Dias <chris@diasfam.com> not in ACL. Committer Chris Dias <chris@diasfam.com> not in ACL. ", 
+    "8f82b037fe9a5e8210dcd345bdb69fba0ff50f81": "", 
+    "9159003d6c5b36ece74f2acd401750c7a1778241": "", 
+    "9731e5287c97a08005303359d299ab8ea6d6449e": "Author Joao Moreno <jomo@microsoft.com> not in ACL. Committer Joao Moreno <jomo@microsoft.com> not in ACL. ", 
+    "fd1a22b5c643c08ba0cd70d6b2e328021e8bff99": "Author isidor <inikolic@microsoft.com> not in ACL. Committer isidor <inikolic@microsoft.com> not in ACL. ", 
+    "783155223d7200ac6e655652a53da08c419871c1": "Author Andre Weinand <aweinand@microsoft.com> not in ACL. Committer Andre Weinand <aweinand@microsoft.com> not in ACL. ", 
+    "2c7bfe53b26d005af0b1cbb87c675140863f4718": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "ed9a93cc7272bf29a74d6ff05ef217fa9e0932d9": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "3c12981e6d8693f71ad866e104744de901b1b360": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "38aecbbb5e5e945bee441e7aadede5ac366a0046": "Author isidor <inikolic@microsoft.com> not in ACL. Committer isidor <inikolic@microsoft.com> not in ACL. ", 
+    "98f95641290c5822bb01039335f80aca57a0ae23": "Author David Storey <storey.david@gmail.com> not in ACL. Committer David Storey <storey.david@gmail.com> not in ACL. ", 
+    "96d34d983d37586d37cafa526ad58fb5464bf166": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "2804413940ea443d0b043c080f9107a6509f689e": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "e32df1933a076a264b6d2748973942c03fac7216": "Author Joao Moreno <jomo@microsoft.com> not in ACL. Committer Joao Moreno <jomo@microsoft.com> not in ACL. ", 
+    "bd9d62b882841f2bf40b9da4192757e9e8ddf2da": "Author David Storey <storey.david@gmail.com> not in ACL. Committer David Storey <storey.david@gmail.com> not in ACL. ", 
+    "cc9e65cea2d55392071203d5490e809f347efcc6": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "0f09edce0102356ab04f1d9a4f79bd3e6c02330d": "", 
+    "078aa5ebddbceb3fe8b5ccf7424b3794dcb6d378": "Author Joao Moreno <mail@joaomoreno.com> not in ACL. Committer Joao Moreno <mail@joaomoreno.com> not in ACL. ", 
+    "160d58dba78b9acca7d8f9fb629ae17b496a68a7": "Author Chris Dias <cdias@microsoft.com> not in ACL. Committer Chris Dias <cdias@microsoft.com> not in ACL. ", 
+    "95896bbee970629dab05e945f251fff24a968330": "Author Johannes Rieken <johannes.rieken@gmail.com> not in ACL. Committer Johannes Rieken <johannes.rieken@gmail.com> not in ACL. ", 
+    "c3094f380d5010a7dd43868a00177a5ff7261124": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "22f05dff89174748b454a802e0bc7e566d885927": "Author Lucas Araujo <lucas.lra@gmail.com> not in ACL. Committer Lucas Araujo <lucas.lra@gmail.com> not in ACL. ", 
+    "23a08adfcd02a3692762fa18baab8abb232c16f2": "Author Andrea Grieco <angrieco@users.noreply.github.com> not in ACL. Committer Andrea Grieco <angrieco@users.noreply.github.com> not in ACL. ", 
+    "046b87e06724d22aea61e8e0e5a304c03e1e2ea5": "Author Alex Dima <alexdima@microsoft.com> not in ACL. Committer Alex Dima <alexdima@microsoft.com> not in ACL. ", 
+    "e6d6c1000edcc12ea1773603f8a4b0a84d2ae8f9": "Author Andre Weinand <aweinand@microsoft.com> not in ACL. Committer Andre Weinand <aweinand@microsoft.com> not in ACL. ", 
+    "6b8b6302143a5d3527545f5604a2c1ab8f333d71": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "cd42db0e3ef4ddb0924e61cb9308b81e83d4ccbb": "Author Joao Moreno <jomo@microsoft.com> not in ACL. Committer Joao Moreno <jomo@microsoft.com> not in ACL. ", 
+    "c878d1ecb66d93e112c2ca59a435cff80920974f": "Author David Storey <storey.david@gmail.com> not in ACL. Committer David Storey <storey.david@gmail.com> not in ACL. ", 
+    "6e5ddd3e7e7fe7e8da3eca11e16b7648752d3fbe": "Author Eduardo Pinho <enet4mikeenet@gmail.com> not in ACL. Committer Eduardo Pinho <enet4mikeenet@gmail.com> not in ACL. ", 
+    "2ba926ab440a67796bf43189ccfd2c9b9c414e9c": "", 
+    "2b6ba9e3cb5c57170b67623395a008c96bf5ebce": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "9ea2f149581de9a9925a74d973f7c8b5d2408862": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "676dca3521a7e2898c766ce1647c06c9e0d2f02b": "Author Joao Moreno <jomo@microsoft.com> not in ACL. Committer Joao Moreno <jomo@microsoft.com> not in ACL. ", 
+    "df479d0a6fa4f3c3d8ba7cb9821f9f35802fe2d7": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "dd9d251b5d43a301e9549a62c5e091ec7a946bd3": "Author Steven Clarke <stevencl@users.noreply.github.com> not in ACL. Committer Steven Clarke <stevencl@users.noreply.github.com> not in ACL. ", 
+    "c04030ebb577422405cc709b32363355bc16465b": "Author Chris Dias <chris@diasfam.com> not in ACL. Committer Chris Dias <chris@diasfam.com> not in ACL. ", 
+    "300756f300f32cc493a03e2383288c704fd79c4c": "Author isidor <inikolic@microsoft.com> not in ACL. Committer isidor <inikolic@microsoft.com> not in ACL. ", 
+    "ed139191d6d17eeca9e9034f49f733e52bbdd8e6": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "7cd8b82c86b7a98cb6962066cbd7ba48ddd24f75": "Author Joao Moreno <mail@joaomoreno.com> not in ACL. Committer Joao Moreno <mail@joaomoreno.com> not in ACL. ", 
+    "045e1b6dd4489f63a6af3f1df893a9f32e0e9d17": "Author Johannes Rieken <johannes.rieken@gmail.com> not in ACL. Committer Johannes Rieken <johannes.rieken@gmail.com> not in ACL. ", 
+    "b75d17c3f7bd05c0dc341a930e50d36042fa3632": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "2d54b7e0ea86fb9e8c62701c305835b5d118562c": "Author David Storey <storey.david@gmail.com> not in ACL. Committer David Storey <storey.david@gmail.com> not in ACL. ", 
+    "4a549a0039d90abc7a685b15d6bcdaf5bef69c65": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "0a2f0cbc5c7ebc4573ba93c7b4c007efb1110856": "Author Benjamin Pasero <benjpas@microsoft.com> not in ACL. Committer Benjamin Pasero <benjpas@microsoft.com> not in ACL. ", 
+    "cee002f47d5b7c269213a1f000414743130ba9eb": "Author Chris Dias <cdias@microsoft.com> not in ACL. Committer Chris Dias <cdias@microsoft.com> not in ACL. ",
   ...
 }
 ```

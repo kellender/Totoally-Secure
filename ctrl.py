@@ -144,9 +144,19 @@ def main(argv):
 		elif opt in ("-e", "--end"):
 			end = arg
 		elif opt in ("-l", "--layer"):
-			layer = re.split(',|;| ', arg)
+			if arg in ("True", "true", "t", "T"):
+				layer = True
+			elif arg in ("False", "false", "f", "F"):
+				layer = False
+			else:
+				layer = re.split(',|;| ', arg)
 		elif opt in ("-b", "--branch"):
-			branch = re.split(',|;| ', arg)
+			if arg in ("True", "true", "t", "T"):
+				branch = True
+			elif arg in ("False", "false", "f", "F"):
+				branch = False
+			else:
+				branch = re.split(',|;| ', arg)
 		elif opt in ("-d", "--delete"):
 			delete = arg
 		elif opt in ("-f", "--flush"):
@@ -169,13 +179,25 @@ def main(argv):
 				if compare_time(start, end) == False:
 					print "Invalid command - end time must be greater than start time"
 					sys.exit()
-			if start != '':
+			if start in ("True", "true", "t", "T"):
+				acl[user][permission]["start"] = True
+			elif start in ("False", "false", "f", "F"):
+				acl[user][permission]["start"] = False
+			elif start != '':
 				acl[user][permission]["start"] = start
-			if end != '':
+			if end in ("True", "true", "t", "T"):
+				acl[user][permission]["end"] = True
+			elif start in ("False", "false", "f", "F"):
+				acl[user][permission]["end"] = False
+			elif end != '':
 				acl[user][permission]["end"] = end
-			if len(layer) != 0:
+			if layer in (True, False):
 				acl[user][permission]["layer"] = layer
-			if len(branch) != 0:
+			elif len(layer) != 0:
+				acl[user][permission]["layer"] = layer
+			if branch in (True, False):
+				acl[user][permission]["branch"] = branch
+			elif len(branch) != 0:
 				acl[user][permission]["branch"] = branch	
 	else:
 		if permission == '':

@@ -132,7 +132,8 @@ def check_code_review( commit_hash ) :
                 metadata[current]["committer"]`
 
         # name the branch; assumed it's the master branch
-        metadata[current]["branch"] = "master"
+        #metadata[current]["branch"] = "master"
+        metadata[current]["branch"] = 0 # Assign an int - 0 means 'master'
         metadata[current]["layer"] = 0
         # if the current commit has at least one parent, continue the loop
         # on that parent
@@ -144,8 +145,9 @@ def check_code_review( commit_hash ) :
 
     # used for naming branches; i.e. "branch1", "branch2", ..., "branchN",
     # where N is some positive integer
+    # Metadata will look like: "branch": 0, "branch": 1, ..., "branch": N
     branch_num = 1
-    layer = 1
+    #layer = 1		# Redundant
     # while the merges stack is still populated (there are still merges
     # to check for code review)
     while len( merges ) > 0 :
@@ -194,7 +196,8 @@ def check_code_review( commit_hash ) :
                             metadata[merge_commit]["committer"]
 
                 # give the current commit a branch name
-                metadata[current]["branch"] = "branch"+`branch_num`
+                #metadata[current]["branch"] = "branch"+`branch_num`
+                metadata[current]["branch"] = branch_num # Assign an int
                 metadata[current]["layer"] = layer
                 # move to the next commit; the parent of the current
                 current = metadata[current]["parent1"]
@@ -332,6 +335,12 @@ def parse_driver():
     # write metadata to a file in a json format
     with open( "metadata.json", "w" ) as ofs :
         ofs.write( json.dumps( metadata, indent = 4 ) )
+
+    # pause the terminal in case metadata.json needs to be checked
+    # this time can be used to open a new terminal and run the
+    # acl.json file generator for permissions: ctrl.py
+    raw_input("Program is paused, hit enter twice to run checker")
+    raw_input("Once more...")
 
     # run checker from check.py
     metadata_lib.check_acl(metadata, "acl.json", "violations.json")

@@ -20,7 +20,7 @@ python ctrl.py -d <username> -p <permission>
 
 To add permissions:
 ```
-python ctrl.py -u <username> -p <permission> -s <YYYY-MM-DD HH-MM-SS> -e <YYYY-MM-DD HH-MM-SS> -l <#,#,#,...> -b <#,#,#,...>
+python ctrl.py -u <username> -p <permission> -s <"YYYY-MM-DD HH-MM-SS"> -e <"YYYY-MM-DD HH-MM-SS"> -l <#,#,#,...> -b <#,#,#,...>
 python ctrl.py -u <username> -p <permission> -s <bool> -e <bool> -l <bool> -b <bool>
 ```
 

@@ -24,11 +24,37 @@ from optparse import OptionParser
 
 
 def build(path):
+     """
+    <Purpose>
+        Starts build process
+    
+    <Arguments>
+        Path to the repository
+    
+    <Exceptions>
+        None
+    
+    <Returns>
+        None
+    """
     os.chdir(path)
     parse_repository.parse_driver()
 
 
 def clone(value):
+    """
+    <Purpose>
+        Clones give repository
+    
+    <Arguments>
+        URL to repo [-b branch name] [path]
+    
+    <Exceptions>
+        None
+    
+    <Returns>
+        None
+    """
     print "Checking out repo from", value, "..."
     git_process = subprocess.Popen("git clone " + value, cwd = os.getcwd(), shell = True, 
        stdout = subprocess.PIPE, stderr = subprocess.PIPE)

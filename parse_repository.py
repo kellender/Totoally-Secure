@@ -344,4 +344,3 @@ def parse_driver():
 
     # run checker from check.py
     metadata_lib.check_acl(metadata, "acl.json", "violations.json")
-parse_driver()

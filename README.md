@@ -43,14 +43,17 @@ The current system generates a JSON file named "acl.json" which "metadata_lib.py
   
 # To Run Totolly Secure's algorithm
 Ideally you will have already ran "ctrl.py" and have generated an "acl.json" file which will be used in the following steps:
+
 To get help:
 ```
 python build.py -h
 ```
+
 To run the build
 ```
 python build.py <Repository URL>
 ```
+
 Example:
 ```
 python build.py https://www.github.com/kellender/Totolly-Secure

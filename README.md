@@ -42,7 +42,12 @@ Definitions
 The current system generates a JSON file named "acl.json" which "metadata_lib.py" via "parse_repository.py" will use to run checks against "parse_repository.py"'s metadata dictionary which is also found in "metadata.json".
   
 # To Run Totolly Secure's algorithm
-Ideally you will have already run "ctrl.py" and have generated an "acl.json" file which will be used in the following steps:
+Ideally you will have already ran "ctrl.py" and have generated an "acl.json" file which will be used in the following steps:
+To get help:
+```
+python build.py -h
+```
+To run the build
 ```
 python build.py <Repository URL>
 ```
@@ -50,6 +55,23 @@ Example:
 ```
 python build.py https://www.github.com/kellender/Totolly-Secure
 ```
+
+To clone a branch
+```
+python build.py <Repository URL> -b <some_branch_name>
+```
+
+To run the specify a path
+```
+python build.py <Repository URL> -b <some_branch_name> -p <some_path>
+```
+
+Definitions
+```
+-b, --branch:       Branch       (i.e: some_branch_name)  
+-p, --path:         Path         (i.e: ./Dependencies/Repository_name)  
+```
+
   
 A "metadata.json" file should have been created outlining the information about the git tree.  
 A "violations.json" file should have been created listing all the commit hashes as keys and an associate string value as errors or warnings about the git tree based on the "acl.json" file which was set before hand. If the string is empty or "", this means there are no errors or warnings.

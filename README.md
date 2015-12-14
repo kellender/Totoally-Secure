@@ -36,7 +36,7 @@ python ctrl.py -f
 
 Definitions
 ```
--u, --user:         Username		(i.e: "John Doe <johndoe@random.com>")  
+-u, --user:         Username	(i.e: "John Doe <johndoe@random.com>")  
 -p, --permission:   Permission	(i.e: commit, merge, write)  
 -s, --start:        Start Time	(i.e: "2015-12-12 00:00:00", true, false)  
 -e, --end:          End Time	(i.e: "2015-12-12 00:00:00", true, false)  

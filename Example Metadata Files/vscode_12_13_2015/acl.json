@@ -1,0 +1,60 @@
+{
+    "Martin Aeschlimann <martinae@microsoft.com>": {
+        "write": {
+            "start": "2015-11-19 00:00:00", 
+            "layer": [
+                "0", 
+                "1", 
+                "2"
+            ], 
+            "end": true, 
+            "branch": true
+        }, 
+        "commit": {
+            "start": "2015-11-19 00:00:00", 
+            "layer": [
+                "0", 
+                "1", 
+                "2"
+            ], 
+            "end": true, 
+            "branch": true
+        }, 
+        "merge": {
+            "start": "2015-11-19 00:00:00", 
+            "layer": [
+                "0", 
+                "1", 
+                "2"
+            ], 
+            "end": true, 
+            "branch": true
+        }
+    }, 
+    "Jan Karger <punkerat76@gmail.com>": {
+        "write": {
+            "start": "2014-12-01 00-00-00", 
+            "layer": [
+                "0", 
+                "1"
+            ], 
+            "end": "2015-12-11 00-00-00"
+        }, 
+        "merge": {
+            "start": "2014-12-01 00-00-00", 
+            "layer": [
+                "0", 
+                "1"
+            ], 
+            "end": "2015-12-11 00-00-00"
+        }, 
+        "commit": {
+            "start": "2014-12-01 00-00-00", 
+            "layer": [
+                "0", 
+                "1"
+            ], 
+            "end": "2015-12-11 00-00-00"
+        }
+    }
+}

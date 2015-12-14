@@ -27,6 +27,11 @@ python ctrl.py -u <username> -p <permission> -s <bool> -e <bool> -l <bool> -b <b
 Example:
 ```
 python ctrl.py -u "John Doe <johndoe@random.com>" -p merge -s "2015-12-12 00:00:00" -e true -l 0,1 -b "0 1 2"
+python ctrl.py -u "John Doe <johndoe@random.com>" -p commit -s true -e true -l true -b true
+python ctrl.py -u "John Doe <johndoe@random.com>" -p write -s true -e true -l 0,1 -b true
+python ctrl.py -d "John Doe <johndoe@random.com>" -p merge
+python ctrl.py -d "John Doe <johndoe@random.com>"
+python ctrl.py -f
 ```
 
 Definitions
@@ -41,7 +46,7 @@ Definitions
   
 The current system generates a JSON file named "acl.json" which "metadata_lib.py" via "parse_repository.py" will use to run checks against "parse_repository.py"'s metadata dictionary which is also found in "metadata.json".
   
-# To Run Totolly Secure's algorithm
+# To Run Totolly Secure's Algorithm
 Ideally you will have already ran "ctrl.py" and have generated an "acl.json" file which will be used in the following steps:
 
 To get help:
@@ -49,24 +54,26 @@ To get help:
 python build.py -h
 ```
 
-To run the build
+To run the build:
 ```
 python build.py <Repository URL>
+```
+
+To clone a branch and run:
+```
+python build.py <Repository URL> -b <some_branch_name>
+```
+
+To run the specify a path and run:
+```
+python build.py <Repository URL> -b <some_branch_name> -p <some_path>
 ```
 
 Example:
 ```
 python build.py https://www.github.com/kellender/Totolly-Secure
-```
-
-To clone a branch
-```
-python build.py <Repository URL> -b <some_branch_name>
-```
-
-To run the specify a path
-```
-python build.py <Repository URL> -b <some_branch_name> -p <some_path>
+python build.py https://www.github.com/kellender/Totolly-Secure -b Permissions
+python build.py https://www.github.com/kellender/Totolly-Secure -b Permissions -p ./Dependencies/Totolly-Secure
 ```
 
 Definitions

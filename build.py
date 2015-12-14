@@ -24,16 +24,16 @@ from optparse import OptionParser
 
 
 def build(path):
-     """
+    """
     <Purpose>
         Starts build process
-    
+
     <Arguments>
         Path to the repository
-    
+
     <Exceptions>
         None
-    
+
     <Returns>
         None
     """

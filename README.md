@@ -44,11 +44,11 @@ The current system generates a JSON file named "acl.json" which "metadata_lib.py
 # To Run Totolly Secure's algorithm
 Ideally you will have already run "ctrl.py" and have generated an "acl.json" file which will be used in the following steps:
 ```
-python init_and_built.py <Repository URL>
+python build.py <Repository URL>
 ```
 Example:
 ```
-python init_and_built.py https://www.github.com/kellender/Totolly-Secure
+python build.py https://www.github.com/kellender/Totolly-Secure
 ```
   
 A "metadata.json" file should have been created outlining the information about the git tree.  

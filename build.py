@@ -85,11 +85,11 @@ def main(args):
 
     parser.add_option("-b", "--Branch", dest="branch",
             default=None, action = "store", type="string",
-            help="Clones a specific branch of a repository", metavar="repository")
+            help="Clones a specific branch of a repository", metavar="branch name")
 
     parser.add_option("-p", "--Path", dest="path",
             default=None, action = "store", type="string",
-            help="Stores the cloned repostiory in this path", metavar="repository")
+            help="Stores the cloned repostiory in specified path", metavar="path")
 
 
     (options, args) = parser.parse_args()

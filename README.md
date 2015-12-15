@@ -50,7 +50,7 @@ Definitions
 The current system generates a JSON file named "acl.json" which "metadata_lib.py" via "parse_repository.py" will use to run checks against "parse_repository.py"'s metadata dictionary which is also found in "metadata.json".
   
 # To Run Totolly Secure's Algorithm
-Ideally you will have already ran "ctrl.py" and have generated an "acl.json" file which will be used in the following steps:
+Ideally you will have already ran "ctrl.py" and have generated an "acl.json" file in the current directory which will be used in the following steps:
 
 To get help:
 ```
@@ -347,4 +347,11 @@ Defintions
 ```
 "<hash>":	Key or Hash of commit from metadata dictionary or metadata.json file
 "<string>":	Error string displaying all the errors for that commit based on acl.json file
+```
+  
+Output Location and Naming Scheme
+Totolly Secure's Algorithm will output three files in the current directory:
+```
+metadata_<repository name>.json  
+violations_<repository name>.json  
 ```

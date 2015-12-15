@@ -23,7 +23,7 @@ import parse_repository
 from optparse import OptionParser
 
 
-def build(path):
+def build(path, acl_filename):
     """
     <Purpose>
         Starts build process
@@ -38,7 +38,7 @@ def build(path):
         None
     """
     os.chdir(path)
-    parse_repository.parse_driver()
+    parse_repository.parse_driver(acl_filename)
 
 
 def clone(value):
@@ -91,18 +91,25 @@ def main(args):
             default=None, action = "store", type="string",
             help="Stores the cloned repostiory in specified path", metavar="path")
 
+    parser.add_option("-a", "--acl", dest="acl",
+            default=None, action = "store", type="string",
+            help="Gets file name of ACL list", metavar="acl")
 
     (options, args) = parser.parse_args()
 
     clone_param = args[0]
     path = None
     repo = args[0]
+    acl_filename = "acl.json"
+
     for key, value in options.__dict__.items():
         if(key == 'branch' and value != None):
             clone_param += " -b " + value
         if (key == 'path' and value != None):
             clone_param += " " + value
             path = value
+        if(key == 'acl' and value != None):
+            acl_filename = value
 
     #if path is not specified then path is taken form the repository        
     if(path == None):
@@ -111,7 +118,7 @@ def main(args):
     #checks if path exists!
     if(not os.path.isdir(path)):
         clone(clone_param)
-    build(path)
+    build(path, acl_filename)
 
 
 

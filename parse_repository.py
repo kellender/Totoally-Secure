@@ -289,7 +289,7 @@ def traverse( commit_hash, child_hash = None ) :
                 add_child( parent_hash, commit_hash )
 
 
-def parse_driver():
+def parse_driver(acl_filename):
     global metadata
     global hashes
     # hash of the HEAD commit
@@ -346,4 +346,4 @@ def parse_driver():
     #raw_input("Once more...")
 
     # run checker from check.py
-    metadata_lib.check_acl(metadata, "../acl.json", "../violations_" + repo_name + ".json")
+    metadata_lib.check_acl(metadata, "../" + acl_filename, "../violations_" + repo_name + ".json")

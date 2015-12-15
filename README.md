@@ -349,7 +349,7 @@ Defintions
 "<string>":	Error string displaying all the errors for that commit based on acl.json file
 ```
   
-Output Location and Naming Scheme
+Output Location and Naming Scheme  
 Totolly Secure's Algorithm will output three files in the current directory:
 ```
 metadata_<repository name>.json  

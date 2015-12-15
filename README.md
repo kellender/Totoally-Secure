@@ -350,7 +350,7 @@ Defintions
 ```
   
 Output Location and Naming Scheme  
-Totolly Secure's Algorithm will output three files in the current directory:
+Totolly Secure's Algorithm will output two files in the current directory:
 ```
 metadata_<repository name>.json  
 violations_<repository name>.json  

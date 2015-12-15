@@ -85,7 +85,7 @@ python build.py https://www.github.com/kellender/Totolly-Secure -b Permissions -
 Definitions
 ```
 -b, --branch:       Branch       (i.e: Branch name of repository)  
--a, --acl:          ACL           (i.e: ACL file name in the current directory)  
+-a, --acl:          ACL          (i.e: ACL file name in the current directory)  
 -p, --path:         Path         (i.e: ./Dependencies/Repository_name)  
 -h, --help:         Help  
 ```

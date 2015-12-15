@@ -50,7 +50,7 @@ Definitions
 The current system generates a JSON file named "acl.json" which "metadata_lib.py" via "parse_repository.py" will use to run checks against "parse_repository.py"'s metadata dictionary which is also found in "metadata.json".
   
 # To Run Totolly Secure's Algorithm
-Ideally you will have already ran "ctrl.py" and have generated an "acl.json" file in the current directory which will be used in the following steps:
+Ideally you will have already ran "ctrl.py" and have generated an "acess control list" file in the current directory which will be used in the following steps. One must sepcify the file name of the acl list, otherwise script will check for "acl.json" in the current directory:
 
 To get help:
 ```
@@ -59,17 +59,17 @@ python build.py -h
 
 To run the build:
 ```
-python build.py <Repository URL>
+python build.py <Repository URL> -a <acl file name>
 ```
 
 To clone a branch and run:
 ```
-python build.py <Repository URL> -b <some_branch_name>
+python build.py <Repository URL> -b <branch name> -a <acl file name>
 ```
 
 To run the specify a path and run:
 ```
-python build.py <Repository URL> -b <some_branch_name> -p <some_path>
+python build.py <Repository URL> -b <branch name> -p <path> -a <acl file name>
 ```
 
 Example:
@@ -77,11 +77,15 @@ Example:
 python build.py https://www.github.com/kellender/Totolly-Secure
 python build.py https://www.github.com/kellender/Totolly-Secure -b Permissions
 python build.py https://www.github.com/kellender/Totolly-Secure -b Permissions -p ./Dependencies/Totolly-Secure
+python build.py https://www.github.com/kellender/Totolly-Secure -a acl.json
+python build.py https://www.github.com/kellender/Totolly-Secure -b Permissions -a acl.json
+python build.py https://www.github.com/kellender/Totolly-Secure -b Permissions -p ./Dependencies/Totolly-Secure -a acl.json
 ```
 
 Definitions
 ```
--b, --branch:       Branch       (i.e: some_branch_name)  
+-b, --branch:       Branch       (i.e: Branch name of repository)  
+-a, --acl:           ACL         (i.e: ACL file name in the current directory)  
 -p, --path:         Path         (i.e: ./Dependencies/Repository_name)  
 -h, --help:         Help  
 ```
@@ -343,7 +347,7 @@ Definitions
 }
 ```
   
-Defintions
+Definitions
 ```
 "<hash>":	Key or Hash of commit from metadata dictionary or metadata.json file
 "<string>":	Error string displaying all the errors for that commit based on acl.json file

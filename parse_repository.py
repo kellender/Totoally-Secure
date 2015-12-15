@@ -18,7 +18,7 @@
 """
 
 from subprocess import check_output
-import json, metadata_lib
+import json, metadata_lib, re
 
 # hashes of commits that were already touched
 hashes = []
@@ -330,17 +330,20 @@ def parse_driver():
     # check for code review
     check_code_review( head )
 
-    
+    # get repository name so that it can be appended to file names
+    path_to_name = check_output(["git", "rev-parse", "--show-toplevel"]).strip()
+    path_list = re.split('/', path_to_name)
+    repo_name = str(path_list[len(path_list) - 1])
 
     # write metadata to a file in a json format
-    with open( "metadata.json", "w" ) as ofs :
+    with open( "../metadata_" + repo_name + ".json", "w" ) as ofs :
         ofs.write( json.dumps( metadata, indent = 4 ) )
 
     # pause the terminal in case metadata.json needs to be checked
     # this time can be used to open a new terminal and run the
     # acl.json file generator for permissions: ctrl.py
-    raw_input("Program is paused, hit enter twice to run checker")
-    raw_input("Once more...")
+    #raw_input("Program is paused, hit enter twice to run checker")
+    #raw_input("Once more...")
 
     # run checker from check.py
-    metadata_lib.check_acl(metadata, "acl.json", "violations.json")
+    metadata_lib.check_acl(metadata, "../acl.json", "../violations_" + repo_name + ".json")

@@ -113,7 +113,7 @@ def main(argv):
 
 	if len(argv) < 2:
 		print "Invalid command - too few arguments"
-		sys.exist()
+		sys.exit()
 
 	__load_json("acl.json")
 	
